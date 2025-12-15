@@ -1,36 +1,61 @@
 import z from "zod";
+import type { Type } from "./type";
+import type { TOKEN } from "../types_";
 
 export default {
 	name: "function",
 	description: "A function",
-	begin: "^function",
-	compile(val, ctx) {
-		const regex = new RegExp(
-			"^function\\s+(?<name>[a-zA-Z_]+)\\s*\\((?<args>[a-zA-Z, ]*)\\)"
-		);
-		const match = regex.exec(val);
-		if (!match) {
-			throw new Error("Malformed function");
-		}
-		const name = match.groups!.name!;
-		const args = match.groups!.args!.split(",").map((arg) => {
-			return arg.trim();
-		});
+	char: "function",
 
-		const [data, i] = ctx.compile(val.slice(match[0].length));
-		return [
+	lex(val, ctx, loc) {
+		let part = "name";
+		let name = "";
+		let args = [];
+		let code = [];
+		ctx.advance(8);
+		while (true) {
+			const char = ctx.advance();
+			if (part === "name") {
+				if (char in [" ", "("]) {
+					part = "args";
+				} else if (ctx.isAlnum(char)) {
+					name += char;
+				} else {
+					throw new Error(
+						`Unexpected character '${char}' at ${loc.line}:${loc.col}`
+					);
+				}
+			} else if (part === "args") {
+				if (char === ")") {
+					part = "code";
+				} else {
+					args.push(ctx.lex(char));
+				}
+			} else if (part === "code") {
+				if (char === "}") {
+					break;
+				} else {
+					code.push(ctx.lex(char));
+				}
+			}
+		}
+
+		ctx.push(
+			"function",
 			{
-				type: "type",
-				data: {
-					type: "function",
-					value: {
-						name,
-						args,
-						code: data,
-					},
-				},
+				name,
+				args,
+				code,
 			},
-			i,
-		];
+			loc
+		);
 	},
-};
+
+	compile(val, ctx) {
+
+	}
+} satisfies Type<{
+	name: string;
+	args: TOKEN<any>[];
+	code: TOKEN<any>[];
+}>

@@ -1,7 +1,8 @@
 import types from "./types";
 import signs from "./signs";
-import type { CODE, TYPE } from "./types_";
-import { z } from "zod";
+import type { CODE, LOCATION, TOKEN, TOKEN_TYPE, TYPE } from "./types_";
+import { safeParse, z } from "zod";
+
 export class Compiler {
 	constructor(public code: string) {}
 
@@ -9,73 +10,63 @@ export class Compiler {
 		return char === "\n" || char === ";" || char === "}";
 	}
 
-	compile() {
+	compile() {}
+
+	lex() {
+		const tokens: TOKEN<any>[] = [];
 		let i = 0;
-		const line: (TYPE | { type: "sign"; data: string })[] = [];
-		while (true) {
-			const char = this.code[i];
-			if (!char) {
-				break;
-			}
-			let found = false;
-			for (const type of Object.values(types)) {
-				console.log(JSON.stringify(type));
-				const match = new RegExp(type.begin).exec(char);
-				if (match) {
-					found = true;
-					i += match[0].length;
-					const [data, length] = type.compile(this.code.slice(i), {
-						res: char,
-						comp: this,
-					});
-					line.push(data);
-					i += length;
-					break;
+		let line = 1;
+		let col = 1;
+
+		const push = (
+			type: TOKEN_TYPE,
+			value: string,
+			from: LOCATION,
+			to: LOCATION = { line, col }
+		) => {
+			tokens.push({ type, value, to, from });
+		};
+
+		const advance = (i: number = 1) => {
+			for (let x = 0; x < i; x++) {
+				const ch = this.code[i++];
+				if (ch === "\n") {
+					line += 1;
+					col = 1;
+				} else {
+					col += 1;
 				}
+				return ch;
 			}
-			if (found) continue;
-			for (const sign of Object.values(signs)) {
-				if (sign.sign === char) {
-					line.push({
-						type: "sign",
-						data: char,
-					});
-					found = true;
-					break;
-				}
-			}
-			if (found) continue;
-			if (char === " ") {
+		};
+
+		const peek = (x: number = 0) => this.code[i + x];
+		const goto = (loc: LOCATION) => {
+			line = loc.line;
+			col = loc.col;
+		};
+		const isAlpha = (c?: string) => !!c && /[A-Za-z_]/.test(c);
+		const isAlnum = (c?: string) => !!c && /[A-Za-z0-9_]/.test(c);
+
+		const ctx = {
+			push,
+			advance,
+			isAlpha,
+			isAlnum,
+			goto,
+		} ;
+
+		while (i < this.code.length) {
+			const ch = peek();
+			if (ch === " " || ch === "\t" || ch === "\r" || ch === "\n") {
+				advance();
 				continue;
-      } else if (this.isBreak(char)) {
-        break;
-      }
-			throw new Error(`Invalid character: ${char}`);
-		}
-		const compiled: CODE[] = [];
-		i = 0;
-		while (true) {
-			const item = line[i];
-			if (!item) {
-				break;
 			}
-			if (item.type === "sign") {
-				const sign = signs[item.data as keyof typeof signs];
-				if (!sign) {
-					throw new Error("Invalid sign");
-				}
-				const [data, pre, post] = sign.compile(compiled, line, this);
-				compiled.push(data);
-				i += post;
-				new Array(pre).forEach(() => compiled.pop());
-			} else if (typeof item === "string") {
-				throw new Error("Invalid item");
-			} else {
-				compiled.push(item);
-				i++;
-			}
+
+			throw new Error(`Unexpected character '${ch}' at ${line}:${col}`);
 		}
 
-		return [compiled, i];
+		tokens.push({ type: "eof", from: { line, col }});
+		return tokens;
 	}
 }
