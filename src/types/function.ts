@@ -10,8 +10,8 @@ export default {
 	lex(val, ctx, loc) {
 		let part = "name";
 		let name = "";
-		let args = [];
-		let code = [];
+		const args: TOKEN<any>[] = [];
+		const code: TOKEN<any>[] = [];
 		ctx.advance(8);
 		while (true) {
 			const char = ctx.advance();
@@ -22,12 +22,19 @@ export default {
 					name += char;
 				} else {
 					throw new Error(
-						`Unexpected character '${char}' at ${loc.line}:${loc.col}`,
+						`Unexpected character '${char}' at ${loc.line}:${loc.col}`
 					);
 				}
 			} else if (part === "args") {
 				if (char === ")") {
 					part = "code";
+				} else if (char === ",") {
+					args.push({
+						type: "char",
+						value: char,
+						from: loc,
+						to: loc,
+					});
 				} else {
 					args.push(ctx.lex(char));
 				}
@@ -47,11 +54,19 @@ export default {
 				args,
 				code,
 			},
-			loc,
+			loc
 		);
 	},
 
-	compile(val, ctx) {},
+	compile(val, ctx) {
+		const args = [];
+		let temp = [];
+		for (const type of val.value!.args) {
+			if (type.type === "char" && type.value === ",") {
+				const compiled = ctx.compile(temp)
+			}
+		}
+	},
 } satisfies Type<{
 	name: string;
 	args: TOKEN<any>[];

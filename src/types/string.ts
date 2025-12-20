@@ -1,4 +1,3 @@
-import z from "zod";
 import type { Type } from "./type";
 
 const escapedChars = {
@@ -19,7 +18,7 @@ export default {
 			if (char === "\\") {
 				const next = ctx.advance();
 				if (next in escapedChars) {
-					str += escapedChars[next]!;
+					str += escapedChars[next];
 				}
 			} else if (char === val) {
 				ctx.push("str", str, loc);

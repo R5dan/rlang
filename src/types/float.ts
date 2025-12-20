@@ -2,8 +2,8 @@ import z from "zod";
 import type { Type } from "./type";
 
 export default {
-	name: "int",
-	description: "integer",
+	name: "float",
+	description: "A floating point number",
 	char: "[0-9.]",
 
 	compile(val, ctx) {},

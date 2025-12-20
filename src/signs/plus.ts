@@ -22,7 +22,9 @@ export default {
 				type: "type",
 				data: {
 					type: "int",
-					value: `${parseInt(val1.data.value) + parseInt(val2.data.value)}`,
+					value: `${
+						parseInt(val1.data.value) + parseInt(val2.data.value)
+					}`,
 				},
 			};
 		}

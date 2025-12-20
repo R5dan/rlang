@@ -30,14 +30,12 @@ export type CODE = VARIABLE | EXPR | TYPE;
 
 export type LEXER_CTX<T> = {
 	advance: (i?: number) => string;
-	peek: () => string;
+	peek: () => string | undefined;
 	isAlpha: (c?: string) => boolean;
 	isAlnum: (c?: string) => boolean;
 	push: (type: TOKEN_TYPE, value: T, from: LOCATION, to?: LOCATION) => void;
 	goto: (loc: LOCATION) => void;
-	cancel: () => void;
-	regex: RegExp;
-	lex: (char: string) => TOKEN<any>;
+	lex: (char: string) => TOKEN<any>[];
 };
 
 export interface LEXER<T> {
@@ -45,7 +43,15 @@ export interface LEXER<T> {
 	char: string | string[] | RegExp;
 }
 
-export type TOKEN_TYPE = "str" | "int" | "float" | "function" | "eof";
+// 'sign' | 'eof' | 'char' | types
+export type TOKEN_TYPE =
+	| "str"
+	| "int"
+	| "float"
+	| "function"
+	| "eof"
+	| "char"
+	| "sign";
 
 export type TOKEN<T> = {
 	type: TOKEN_TYPE;
