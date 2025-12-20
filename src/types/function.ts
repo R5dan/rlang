@@ -22,7 +22,7 @@ export default {
 					name += char;
 				} else {
 					throw new Error(
-						`Unexpected character '${char}' at ${loc.line}:${loc.col}`
+						`Unexpected character '${char}' at ${loc.line}:${loc.col}`,
 					);
 				}
 			} else if (part === "args") {
@@ -54,7 +54,7 @@ export default {
 				args,
 				code,
 			},
-			loc
+			loc,
 		);
 	},
 
@@ -63,7 +63,7 @@ export default {
 		let temp = [];
 		for (const type of val.value!.args) {
 			if (type.type === "char" && type.value === ",") {
-				const compiled = ctx.compile(temp)
+				const compiled = ctx.compile(temp);
 			}
 		}
 	},

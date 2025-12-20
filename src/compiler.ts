@@ -31,7 +31,7 @@ export class Compiler {
 			type: TOKEN_TYPE,
 			value: any,
 			from: LOCATION,
-			to: LOCATION = { line, col }
+			to: LOCATION = { line, col },
 		) => {
 			tokens.push({ type, value, to, from });
 		};
