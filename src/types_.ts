@@ -33,12 +33,7 @@ export type LEXER_CTX<T> = {
 	peek: () => string;
 	isAlpha: (c?: string) => boolean;
 	isAlnum: (c?: string) => boolean;
-	push: (
-		type: TOKEN_TYPE,
-		value: T,
-		from: LOCATION,
-		to?: LOCATION
-	) => void;
+	push: (type: TOKEN_TYPE, value: T, from: LOCATION, to?: LOCATION) => void;
 	goto: (loc: LOCATION) => void;
 	cancel: () => void;
 	regex: RegExp;

@@ -10,26 +10,29 @@ export default {
 		if (val.type === "int") {
 			const val2 = post[0];
 			if (val2 && val2.type === "type" && val2.data.type === "int") {
-				return [{
-					type: "type",
-					data: {
-						type: "float",
-						value: `${parseInt(val.data.value)}.${parseInt(
-							val2.data.value
-						)}`,
+				return [
+					{
+						type: "type",
+						data: {
+							type: "float",
+							value: `${parseInt(val.data.value)}.${parseInt(val2.data.value)}`,
+						},
 					},
-				}, 1, 1];
+					1,
+					1,
+				];
 			}
-    }
-    return [{
-      type: "type",
-      data: {
-        type: "unknown",
-        value: "never"
-      }
-
-    }, 1, 0]
-  },
-  
-
+		}
+		return [
+			{
+				type: "type",
+				data: {
+					type: "unknown",
+					value: "never",
+				},
+			},
+			1,
+			0,
+		];
+	},
 };

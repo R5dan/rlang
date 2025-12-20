@@ -8,15 +8,9 @@ const escapedChars = {
 export default {
 	name: "string",
 	description: "A string",
-	char: [
-		"'",
-		"\"",
-		"`"
-	]
+	char: ["'", '"', "`"],
 
-  compile(val, ctx) {
-    
-  },
+	compile(val, ctx) {},
 
 	lex(val, ctx, loc) {
 		let str = "";

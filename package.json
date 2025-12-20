@@ -1,20 +1,21 @@
 {
-  "name": "ts",
-  "module": "src/index.ts",
-  "type": "module",
-  "scripts": {
-    "build": "bun run src/index.ts compile",
-    "exec": "bun run src/index.ts run"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "@clack/prompts": "^0.11.0",
-    "commander": "^14.0.2",
-    "zod": "^4.1.13"
-  }
+	"name": "ts",
+	"module": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"build": "bun run src/index.ts compile",
+		"exec": "bun run src/index.ts run"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.10",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@clack/prompts": "^0.11.0",
+		"commander": "^14.0.2",
+		"zod": "^4.1.13"
+	}
 }

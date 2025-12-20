@@ -22,7 +22,7 @@ export default {
 					name += char;
 				} else {
 					throw new Error(
-						`Unexpected character '${char}' at ${loc.line}:${loc.col}`
+						`Unexpected character '${char}' at ${loc.line}:${loc.col}`,
 					);
 				}
 			} else if (part === "args") {
@@ -47,15 +47,13 @@ export default {
 				args,
 				code,
 			},
-			loc
+			loc,
 		);
 	},
 
-	compile(val, ctx) {
-
-	}
+	compile(val, ctx) {},
 } satisfies Type<{
 	name: string;
 	args: TOKEN<any>[];
 	code: TOKEN<any>[];
-}>
+}>;

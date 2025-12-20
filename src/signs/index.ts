@@ -1,7 +1,10 @@
+import { close, open } from "./bracket";
 import fullstop from "./fullstop";
 import plus from "./plus";
 
 export default {
-  plus,
-  fullstop,
-}
+	plus,
+	fullstop,
+	open,
+	close,
+};

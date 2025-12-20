@@ -22,13 +22,13 @@ export class Compiler {
 			type: TOKEN_TYPE,
 			value: string,
 			from: LOCATION,
-			to: LOCATION = { line, col }
+			to: LOCATION = { line, col },
 		) => {
 			tokens.push({ type, value, to, from });
 		};
 
-		const advance = (i: number = 1) => {
-			for (let x = 0; x < i; x++) {
+		const advance = (inc: number = 1) => {
+			for (let x = 0; x < inc; x++) {
 				const ch = this.code[i++];
 				if (ch === "\n") {
 					line += 1;
@@ -54,7 +54,7 @@ export class Compiler {
 			isAlpha,
 			isAlnum,
 			goto,
-		} ;
+		};
 
 		while (i < this.code.length) {
 			const ch = peek();
@@ -66,7 +66,7 @@ export class Compiler {
 			throw new Error(`Unexpected character '${ch}' at ${line}:${col}`);
 		}
 
-		tokens.push({ type: "eof", from: { line, col }});
+		tokens.push({ type: "eof", from: { line, col } });
 		return tokens;
 	}
 }
