@@ -1,5 +1,5 @@
 import type { Compiler } from "../compiler";
-import type { CODE, EXPR, TYPE } from "../types_";
+import type { CODE, COMPILER_CTX, EXPR, TYPE } from "../types_";
 
 export interface Sign {
 	name: string;
@@ -7,7 +7,7 @@ export interface Sign {
 	sign: string;
 	compile(
 		pre: CODE[],
-		post: (CODE | { type: "sign"; data: string })[],
-		ctx: Compiler,
+		post: (CODE | { type: "sign"; data: string } | { type: "eol" })[],
+		ctx: COMPILER_CTX
 	): [EXPR | TYPE, number, number]; // returns [data, pre, post]
 }

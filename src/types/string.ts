@@ -9,7 +9,15 @@ export default {
 	description: "A string",
 	char: ["'", '"', "`"],
 
-	compile(val, ctx) {},
+	compile(val, ctx) {
+		return {
+				type: "type",
+				data: {
+					type: "string",
+					value: val.value,
+				},
+			}
+	},
 
 	lex(val, ctx, loc) {
 		let str = "";
@@ -28,4 +36,4 @@ export default {
 			}
 		}
 	},
-} satisfies Type<string>;
+} satisfies Type<string, string>;

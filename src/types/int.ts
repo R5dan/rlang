@@ -6,11 +6,18 @@ export default {
 	description: "integer",
 	char: "[0-9]",
 
-	compile(val, ctx) {},
+	compile(val, ctx) {
+		return {
+				type: "type",
+				data: {
+					type: "int",
+					value: parseInt(val.value),
+				},
+			}
+	},
 
 	lex(val, ctx, loc) {
 		let num = "";
-		num += val;
 
 		while (true) {
 			const char = ctx.advance();
@@ -25,4 +32,4 @@ export default {
 			}
 		}
 	},
-} satisfies Type<string>;
+} satisfies Type<string, number>;

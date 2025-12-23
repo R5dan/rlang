@@ -4,22 +4,44 @@ import type { Type } from "./type";
 export default {
 	name: "float",
 	description: "A floating point number",
-	char: "[0-9.]",
+	char: "[0-9\\.]",
 
-	compile(val, ctx) {},
+	compile(val, ctx) {
+		let num = "";
+		let dec = "";
+		let isDec = false;
+
+		val.value.split("").forEach((char) => {
+			if (char === ".") {
+				if (isDec) {
+					throw new Error("Invalid float");
+				}
+				isDec = true;
+			} else {
+				if (isDec) {
+					dec += char;
+				} else {
+					num += char;
+				}
+			}
+		});
+
+		return {
+			type: "type",
+			data: {
+				type: "float",
+				value: { num: parseInt(num), dec: parseInt(dec) },
+			},
+		};
+	},
 
 	lex(val, ctx, loc) {
-		let num = "";
-		num += val;
-
-		while (true) {
-			const char = ctx.advance();
-			if (char in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]) {
-				num += char;
-			} else {
-				ctx.push("float", num, loc);
-				break;
-			}
-		}
+		return false;
 	},
-} satisfies Type<string>;
+} satisfies Type<
+	string,
+	{
+		num: number;
+		dec: number;
+	}
+>;

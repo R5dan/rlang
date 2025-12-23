@@ -5,9 +5,9 @@ export default {
 	description: "Add two numbers",
 	sign: "+",
 	compile(pre, post, ctx) {
-		const val1 = pre[-1];
+		const val1 = pre[pre.length-1];
 		const val2 = post[0];
-
+		console.log(`val1: ${val1} val2: ${val2}`)
 		if (!val1 || !val2) {
 			throw new Error("Invalid type");
 		}
@@ -18,13 +18,13 @@ export default {
 			val1.data.type === "int" &&
 			val2.data.type === "int"
 		) {
-			return {
+			return [{
 				type: "type",
 				data: {
 					type: "int",
 					value: `${parseInt(val1.data.value) + parseInt(val2.data.value)}`,
 				},
-			};
+			}, 1, 1]
 		}
 		return [
 			{
