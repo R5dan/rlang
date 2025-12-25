@@ -76,7 +76,8 @@ export class Compiler {
 		const compiled: CODE[] = [];
 		console.log(`PRECOMPILED: ${JSON.stringify(preCompiled)}`);
 		for (let i = 0; i < preCompiled.length; i++) {
-			const token = preCompiled[i];
+			const token = preCompiled.shift();
+			const rest = preCompiled;
 			console.log(`LINE: ${JSON.stringify(token)}`);
 			if (!token) {
 				console.log("....BREAK");
@@ -88,14 +89,31 @@ export class Compiler {
 					if (sign.sign === token.data) {
 						const [code, pre, post] = sign.compile(
 							compiled,
-							preCompiled,
+							rest,
 							ctx
 						);
+						console.log("\n\n\n\n=================\n\n\n\n");
+						console.log(
+							`\nPRE: ${JSON.stringify(
+								compiled
+							)}\n\nPOST: ${JSON.stringify(rest)}`
+						);
 						new Array(pre).forEach(() => {
-							compiled.pop();
+							console.log(`POPPED: ${compiled.pop()}`);
+						});
+						new Array(post).forEach(() => {
+							console.log(`SHIFTED: ${preCompiled.shift()}`);
 						});
 						compiled.push(code);
-						i += post;
+						console.log(
+							`\nPRE: ${JSON.stringify(
+								compiled
+							)} | ${pre}\n\nPOST: ${JSON.stringify(
+								rest
+							)} | ${post}\n`
+						);
+						console.log("\n\n\n\n=================\n\n\n\n");
+
 						break;
 					}
 				}

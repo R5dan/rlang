@@ -34,7 +34,7 @@ export const open = {
 					},
 				},
 				0,
-				i,
+				i+1,
 			];
 		} else {
 			const group = [];
@@ -62,7 +62,7 @@ export const open = {
 					},
 				},
 				0,
-				i,
+				i+1,
 			];
 		}
 	},

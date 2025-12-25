@@ -102,8 +102,7 @@ export default {
 					arg.data.expr === "setVar",
 					debug`Not a valid expr ${arg}`
 				);
-
-				args.set(arg.data.data.var, arg.data.data.val)
+				args.set(arg.data.data.var, arg.data.data.val);
 			}
 		});
 

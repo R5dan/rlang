@@ -66,7 +66,7 @@ program
 					write();
 				}
 			}
-			console.log("PREPARING")
+			console.log("\n\n\n\n\n\n\n\n\n\n\n")
 			const tokens = compiler.compile();
 			console.log("COMPILED")
 			const out = Bun.file(

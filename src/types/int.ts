@@ -8,12 +8,12 @@ export default {
 
 	compile(val, ctx) {
 		return {
-				type: "type",
-				data: {
-					type: "int",
-					value: parseInt(val.value),
-				},
-			}
+			type: "type",
+			data: {
+				type: "int",
+				value: parseInt(val.value),
+			},
+		};
 	},
 
 	lex(val, ctx, loc) {
