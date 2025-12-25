@@ -60,7 +60,7 @@ program
 								if (a === 3) {
 									console.error("Failed to write file");
 								} else {
-									write(a++);
+									write(a+1);
 								}
 							});
 					write();

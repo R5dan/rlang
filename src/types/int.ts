@@ -21,7 +21,7 @@ export default {
 
 		while (true) {
 			const char = ctx.advance();
-			if (char in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
+			if (/[0-9]/.test(char)) {
 				num += char;
 			} else if (char === ".") {
 				ctx.goto(loc);

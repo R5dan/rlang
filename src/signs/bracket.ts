@@ -15,7 +15,7 @@ export const open = {
 				if (!val) {
 					throw new Error("Syntax Error");
 				}
-				if (val.type === "sign" && val.data === "Close-Bracket") {
+				if (val.type === "sign" && val.data === "(") {
 					break;
 				} else {
 					args.push(val);
