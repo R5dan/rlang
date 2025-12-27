@@ -1,6 +1,7 @@
 import Lexer from "./lexer";
 import { Command } from "commander";
 import { z } from "zod";
+import path from "path";
 
 const program = new Command();
 
@@ -12,7 +13,12 @@ program
 		const file = Bun.file(fileLoc);
 		const contents = await file.text();
 		const tokens = lexer.lex(contents);
-		const out = Bun.file("lex.json");
+		const out = Bun.file(
+			path.join(
+				path.dirname(fileLoc),
+				`${path.basename(fileLoc, path.extname(fileLoc))}.rl.json`
+			)
+		);
 		await out.write(JSON.stringify(tokens, null, 4));
 	});
 
