@@ -1,16 +1,39 @@
-import { regex } from "zod";
-import type { RegexRule, Rule, Token } from "../type";
+import type { Rule, Token } from "../type";
+
+const stringRule = (input: string) => {
+	let i = 1;
+	const quote = input[0];
+	if (!quote) {
+		return null;
+	} else if (!/"'`/.test(quote)) {
+		return null;
+	}
+	while (true) {
+		const ch = input[i];
+		if (!ch) {
+			return null;
+		}
+		if (ch === quote) {
+			i++;
+			return {
+				rule: { match: stringRule, name: "str" },
+				length: i,
+				text: input.slice(0, i),
+			};
+		}
+	}
+};
 
 const defaultRules: Rule<string>[] = [
-	{ name: "num", regex: /[0-9]+/ },
-	{ name: "str", regex: /[a-zA-Z]+/ },
-	{ name: "ident", regex: /[a-zA-Z][a-zA-Z0-9]*/ },
-	{ name: "sym", regex: /[+\-*\/%()<>=!]+/ },
+	{ name: "num", regex: /^[0-9]+/ },
+	{ name: "char", regex: /^[a-zA-Z]+/ },
+	{ name: "ident", regex: /^[a-zA-Z][a-zA-Z0-9]*/ },
+	{ name: "sym", regex: /^[+\-*\\/%()<>=!,{}]+/ },
+	{ name: "str", match: stringRule },
 ];
 
-class Lexer {
+export default class Lexer {
 	public rules: Rule<string>[] = defaultRules;
-	constructor() {}
 
 	public lex(input: string): Token[] {
 		let i = 0;
@@ -19,15 +42,26 @@ class Lexer {
 		while (true) {
 			const ret = input.slice(i);
 			const ch = ret[0];
-			if (!ret || !ch) break;
+			console.log(`'${ch}': ${i}`);
+			if (!ret || !ch) {
+				break;
+			}
+			if (ch === ";") {
+				i++;
+				col++;
+				continue;
+			}
 			if (this.isBreak(ch)) {
 				if (ch === "\n") {
 					line++;
-					col = 1;
+					col = 0;
 				}
+				col++;
+
+				i++;
 				continue;
 			}
-			const match = this.matchLongest(input, this.rules);
+			const match = this.matchLongest(ret, this.rules);
 			if (!match) {
 				throw new Error(`Unexpected token ${ch}`);
 			}
@@ -60,7 +94,7 @@ class Lexer {
 	}
 
 	private isBreak(ch: string): boolean {
-		return /\s/.test(ch);
+		return /[\s]/.test(ch);
 	}
 
 	private matchLongest<T>(

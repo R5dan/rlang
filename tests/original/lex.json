@@ -1,0 +1,281 @@
+[
+    {
+        "kind": "char",
+        "value": "a",
+        "pos": {
+            "loc": 1,
+            "line": 1,
+            "col": 2
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 3,
+            "line": 1,
+            "col": 4
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "(",
+        "pos": {
+            "loc": 5,
+            "line": 1,
+            "col": 6
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 7,
+            "line": 1,
+            "col": 8
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "+",
+        "pos": {
+            "loc": 9,
+            "line": 1,
+            "col": 10
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 11,
+            "line": 1,
+            "col": 12
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ")",
+        "pos": {
+            "loc": 13,
+            "line": 1,
+            "col": 14
+        }
+    },
+    {
+        "kind": "char",
+        "value": "function",
+        "pos": {
+            "loc": 25,
+            "line": 3,
+            "col": 9
+        }
+    },
+    {
+        "kind": "char",
+        "value": "add",
+        "pos": {
+            "loc": 29,
+            "line": 3,
+            "col": 13
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "(",
+        "pos": {
+            "loc": 30,
+            "line": 3,
+            "col": 14
+        }
+    },
+    {
+        "kind": "char",
+        "value": "d",
+        "pos": {
+            "loc": 31,
+            "line": 3,
+            "col": 15
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 32,
+            "line": 3,
+            "col": 16
+        }
+    },
+    {
+        "kind": "char",
+        "value": "b",
+        "pos": {
+            "loc": 34,
+            "line": 3,
+            "col": 18
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ")",
+        "pos": {
+            "loc": 35,
+            "line": 3,
+            "col": 19
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "{",
+        "pos": {
+            "loc": 37,
+            "line": 3,
+            "col": 21
+        }
+    },
+    {
+        "kind": "char",
+        "value": "c",
+        "pos": {
+            "loc": 42,
+            "line": 4,
+            "col": 4
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 44,
+            "line": 4,
+            "col": 6
+        }
+    },
+    {
+        "kind": "char",
+        "value": "d",
+        "pos": {
+            "loc": 46,
+            "line": 4,
+            "col": 8
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "+",
+        "pos": {
+            "loc": 48,
+            "line": 4,
+            "col": 10
+        }
+    },
+    {
+        "kind": "char",
+        "value": "b",
+        "pos": {
+            "loc": 50,
+            "line": 4,
+            "col": 12
+        }
+    },
+    {
+        "kind": "char",
+        "value": "return",
+        "pos": {
+            "loc": 60,
+            "line": 5,
+            "col": 9
+        }
+    },
+    {
+        "kind": "char",
+        "value": "c",
+        "pos": {
+            "loc": 62,
+            "line": 5,
+            "col": 11
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "}",
+        "pos": {
+            "loc": 65,
+            "line": 6,
+            "col": 2
+        }
+    },
+    {
+        "kind": "char",
+        "value": "b",
+        "pos": {
+            "loc": 70,
+            "line": 8,
+            "col": 2
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 72,
+            "line": 8,
+            "col": 4
+        }
+    },
+    {
+        "kind": "char",
+        "value": "add",
+        "pos": {
+            "loc": 76,
+            "line": 8,
+            "col": 8
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "(",
+        "pos": {
+            "loc": 77,
+            "line": 8,
+            "col": 9
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 78,
+            "line": 8,
+            "col": 10
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 79,
+            "line": 8,
+            "col": 11
+        }
+    },
+    {
+        "kind": "num",
+        "value": "2",
+        "pos": {
+            "loc": 81,
+            "line": 8,
+            "col": 13
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ")",
+        "pos": {
+            "loc": 82,
+            "line": 8,
+            "col": 14
+        }
+    }
+]

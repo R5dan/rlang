@@ -3,7 +3,7 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun run src/index.ts compile",
+    "lex": "bun run src/index.ts lex",
     "exec": "bun run src/index.ts run"
   },
   "devDependencies": {
