@@ -1,41 +1,11 @@
-import type { Rule, Token } from "../type";
+import type { LexingRule, Token } from "../type";
+import { lexingRules as rules } from "../rules";
 
-const stringRule = (input: string) => {
-	let i = 1;
-	const quote = input[0];
-	if (!quote) {
-		return null;
-	} else if (!/"'`/.test(quote)) {
-		return null;
-	}
-	while (true) {
-		const ch = input[i];
-		if (!ch) {
-			return null;
-		}
-		if (ch === quote) {
-			i++;
-			return {
-				rule: { match: stringRule, name: "str" },
-				length: i,
-				text: input.slice(0, i),
-			};
-		}
-	}
-};
+export default class Lexer<N> {
+	// @ts-expect-error
+	public rules: LexingRule<N, any>[] = rules;
 
-const defaultRules: Rule<string>[] = [
-	{ name: "num", regex: /^[0-9]+/ },
-	{ name: "char", regex: /^[a-zA-Z]+/ },
-	{ name: "ident", regex: /^[a-zA-Z][a-zA-Z0-9]*/ },
-	{ name: "sym", regex: /^[+\-*\\/%()<>=!,{}]+/ },
-	{ name: "str", match: stringRule },
-];
-
-export default class Lexer {
-	public rules: Rule<string>[] = defaultRules;
-
-	public lex(input: string): Token[] {
+	public lex(input: string, file: string): Token<N>[] {
 		let i = 0;
 		const tokens = [];
 		let { line, col }: { line: number; col: number } = { line: 1, col: 1 };
@@ -46,21 +16,7 @@ export default class Lexer {
 			if (!ret || !ch) {
 				break;
 			}
-			if (ch === ";") {
-				i++;
-				col++;
-				continue;
-			}
-			if (this.isBreak(ch)) {
-				if (ch === "\n") {
-					line++;
-					col = 0;
-				}
-				col++;
 
-				i++;
-				continue;
-			}
 			const match = this.matchLongest(ret, this.rules);
 			if (!match) {
 				throw new Error(`Unexpected token ${ch}`);
@@ -83,14 +39,15 @@ export default class Lexer {
 					loc: i,
 					line,
 					col,
+					file,
 				},
 			});
 		}
 		return tokens;
 	}
 
-	public registerRule(name: string, regex: string): void {
-		this.rules.unshift({ name, regex: new RegExp(`^${regex}`) });
+	public registerRule(rule: LexingRule<N, any>): void {
+		this.rules.unshift(rule);
 	}
 
 	private isBreak(ch: string): boolean {
@@ -99,10 +56,10 @@ export default class Lexer {
 
 	private matchLongest<T>(
 		input: string,
-		rules: Rule<T>[]
-	): { rule: Rule<T>; length: number; text: string } | null {
+		rules: LexingRule<T, any>[]
+	): { rule: LexingRule<T, any>; length: number; text: string } | null {
 		let bestMatch: {
-			rule: Rule<T>;
+			rule: LexingRule<T, any>;
 			length: number;
 			text: string;
 		} | null = null;
@@ -126,7 +83,7 @@ export default class Lexer {
 				if (!match) continue;
 
 				if (!bestMatch || match.length > bestMatch.length) {
-					bestMatch = match;
+					bestMatch = { ...match, rule };
 				}
 			}
 		}

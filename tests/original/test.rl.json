@@ -64,7 +64,7 @@
     },
     {
         "kind": "char",
-        "value": "function",
+        "value": "fn",
         "pos": {
             "loc": 25,
             "line": 3,

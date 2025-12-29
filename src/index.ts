@@ -12,7 +12,17 @@ program
 		const lexer = new Lexer();
 		const file = Bun.file(fileLoc);
 		const contents = await file.text();
-		const tokens = lexer.lex(contents);
+		const tokens = lexer.lex(contents, fileLoc);
+		tokens.push({
+			kind: "EOF",
+			value: null,
+			pos: {
+				loc: null,
+				line: null,
+				col: null,
+				file: fileLoc
+			}
+		})
 		const out = Bun.file(
 			path.join(
 				path.dirname(fileLoc),
