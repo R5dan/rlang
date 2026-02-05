@@ -1,0 +1,312 @@
+[
+    {
+        "kind": "ident",
+        "value": "fn",
+        "pos": {
+            "loc": 2,
+            "line": 1,
+            "col": 2,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "add",
+        "pos": {
+            "loc": 6,
+            "line": 1,
+            "col": 6,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 7,
+            "line": 1,
+            "col": 7,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "d",
+        "pos": {
+            "loc": 8,
+            "line": 1,
+            "col": 8,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 9,
+            "line": 1,
+            "col": 9,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "b",
+        "pos": {
+            "loc": 11,
+            "line": 1,
+            "col": 11,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 12,
+            "line": 1,
+            "col": 12,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "{",
+        "pos": {
+            "loc": 14,
+            "line": 1,
+            "col": 14,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "c",
+        "pos": {
+            "loc": 19,
+            "line": 2,
+            "col": 4,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 21,
+            "line": 2,
+            "col": 6,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "d",
+        "pos": {
+            "loc": 23,
+            "line": 2,
+            "col": 8,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "+",
+        "pos": {
+            "loc": 25,
+            "line": 2,
+            "col": 10,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "b",
+        "pos": {
+            "loc": 27,
+            "line": 2,
+            "col": 12,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "}",
+        "pos": {
+            "loc": 30,
+            "line": 3,
+            "col": 2,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "f",
+        "pos": {
+            "loc": 35,
+            "line": 5,
+            "col": 2,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 37,
+            "line": 5,
+            "col": 4,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "add",
+        "pos": {
+            "loc": 41,
+            "line": 5,
+            "col": 8,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 42,
+            "line": 5,
+            "col": 9,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 43,
+            "line": 5,
+            "col": 10,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 44,
+            "line": 5,
+            "col": 11,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "2",
+        "pos": {
+            "loc": 46,
+            "line": 5,
+            "col": 13,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 47,
+            "line": 5,
+            "col": 14,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "g",
+        "pos": {
+            "loc": 50,
+            "line": 6,
+            "col": 2,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 52,
+            "line": 6,
+            "col": 4,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "add",
+        "pos": {
+            "loc": 56,
+            "line": 6,
+            "col": 8,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 57,
+            "line": 6,
+            "col": 9,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "3",
+        "pos": {
+            "loc": 58,
+            "line": 6,
+            "col": 10,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 59,
+            "line": 6,
+            "col": 11,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "4",
+        "pos": {
+            "loc": 60,
+            "line": 6,
+            "col": 12,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 61,
+            "line": 6,
+            "col": 13,
+            "file": "tests/func/test.r"
+        }
+    },
+    {
+        "kind": "EOF",
+        "value": null,
+        "pos": {
+            "loc": null,
+            "line": null,
+            "col": null,
+            "file": "tests/func/test.r"
+        }
+    }
+]

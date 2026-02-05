@@ -1,0 +1,245 @@
+[
+    {
+        "name": "stmt",
+        "data": {
+            "name": "function",
+            "data": {
+                "name": "add",
+                "args": [
+                    "d",
+                    "b"
+                ],
+                "body": [
+                    {
+                        "name": "expr",
+                        "data": {
+                            "name": "assign",
+                            "data": {
+                                "name": "c",
+                                "val": {
+                                    "name": "expr",
+                                    "data": {
+                                        "name": "add",
+                                        "data": {
+                                            "left": {
+                                                "name": "variable",
+                                                "data": {
+                                                    "name": "d"
+                                                }
+                                            },
+                                            "right": {
+                                                "name": "variable",
+                                                "data": {
+                                                    "name": "b"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "stmt",
+                        "data": {
+                            "name": "return",
+                            "data": {
+                                "name": "variable",
+                                "data": {
+                                    "name": "c"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "name": "expr",
+        "data": {
+            "name": "assign",
+            "data": {
+                "name": "f",
+                "val": {
+                    "name": "expr",
+                    "data": {
+                        "name": "call",
+                        "data": {
+                            "var": {
+                                "name": "variable",
+                                "data": {
+                                    "name": "add"
+                                }
+                            },
+                            "args": [
+                                {
+                                    "name": "type",
+                                    "data": {
+                                        "name": "number",
+                                        "inheritance": [
+                                            "object"
+                                        ],
+                                        "public": {},
+                                        "private": {
+                                            "value": 1
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "type",
+                                    "data": {
+                                        "name": "number",
+                                        "inheritance": [
+                                            "object"
+                                        ],
+                                        "public": {},
+                                        "private": {
+                                            "value": 2
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "expr",
+        "data": {
+            "name": "assign",
+            "data": {
+                "name": "g",
+                "val": {
+                    "name": "expr",
+                    "data": {
+                        "name": "call",
+                        "data": {
+                            "var": {
+                                "name": "variable",
+                                "data": {
+                                    "name": "add"
+                                }
+                            },
+                            "args": [
+                                {
+                                    "name": "type",
+                                    "data": {
+                                        "name": "number",
+                                        "inheritance": [
+                                            "object"
+                                        ],
+                                        "public": {},
+                                        "private": {
+                                            "value": 3
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "type",
+                                    "data": {
+                                        "name": "number",
+                                        "inheritance": [
+                                            "object"
+                                        ],
+                                        "public": {},
+                                        "private": {
+                                            "value": 4
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "stmt",
+        "data": {
+            "name": "while",
+            "data": {
+                "expr": {
+                    "name": "type",
+                    "data": {
+                        "name": "boolean",
+                        "inheritance": [
+                            "object"
+                        ],
+                        "public": {},
+                        "private": {
+                            "value": true
+                        }
+                    }
+                },
+                "block": {
+                    "name": "stmt",
+                    "data": {
+                        "name": "if",
+                        "data": {
+                            "expr": {
+                                "name": "type",
+                                "data": {
+                                    "name": "boolean",
+                                    "inheritance": [
+                                        "object"
+                                    ],
+                                    "public": {},
+                                    "private": {
+                                        "value": true
+                                    }
+                                }
+                            },
+                            "block": {
+                                "name": "expr",
+                                "data": {
+                                    "name": "call",
+                                    "data": {
+                                        "var": {
+                                            "name": "variable",
+                                            "data": {
+                                                "name": "print"
+                                            }
+                                        },
+                                        "args": [
+                                            {
+                                                "name": "variable",
+                                                "data": {
+                                                    "name": "f"
+                                                }
+                                            },
+                                            {
+                                                "name": "variable",
+                                                "data": {
+                                                    "name": "g"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "expr",
+        "data": {
+            "name": "call",
+            "data": {
+                "var": {
+                    "name": "variable",
+                    "data": {
+                        "name": "exit"
+                    }
+                },
+                "args": []
+            }
+        }
+    }
+]

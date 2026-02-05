@@ -1,0 +1,12 @@
+{
+    "linter": {
+        "rules": {
+            "correctness": {
+                "useYield": "off"
+            },
+            "suspicious": {
+                "noShadowRestrictedNames": "off"
+            }
+        }
+    }
+}
