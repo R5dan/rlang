@@ -8,30 +8,37 @@ export default class Lexer<N> {
 	public lex(input: string, file: string): Token<N>[] {
 		let i = 0;
 		const tokens = [];
-		let { line, col }: { line: number; col: number } = { line: 1, col: 1 };
+		let { line, col }: { line: number; col: number } = { line: 0, col: 0 };
 		while (true) {
+			i++;
+			col++;
 			const ret = input.slice(i);
 			const ch = ret[0];
-			console.log(`'${ch}': ${i}`);
 			if (!ret || !ch) {
 				break;
+			}
+			if (this.isBreak(ch)) {
+				if (ch === "\n") {
+					line++;
+					col = 0;
+				}
+				continue;
 			}
 
 			const match = this.matchLongest(ret, this.rules);
 			if (!match) {
-				throw new Error(`Unexpected token ${ch}`);
+				throw new Error(`Unexpected token '${ch}' @ (${line}, ${col})`);
 			}
 			const text = match.text;
 			for (const c of text) {
 				if (c === "\n") {
 					line++;
-					col = 1;
+					col = 0;
 				} else {
 					col++;
 				}
 			}
 
-			i += match.length;
 			tokens.push({
 				kind: match.rule.name,
 				value: match.text,
@@ -42,6 +49,8 @@ export default class Lexer<N> {
 					file,
 				},
 			});
+			i += match.length;
+
 		}
 		return tokens;
 	}

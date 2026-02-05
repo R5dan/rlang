@@ -1,4 +1,5 @@
 import type Parser from "./parser";
+import type { AllContexts, Runner, VM } from "./vm";
 
 export type LexingRegexRule<N, T> = {
 	name: N;
@@ -14,24 +15,34 @@ export type LexingFunctionRule<N, T> = {
 
 export type LexingRule<N, T> = LexingRegexRule<N, T> | LexingFunctionRule<N, T>;
 
-export type StatementRule<T extends Record<any, any>> = {
+export type StatementRule<T> = {
 	name: string;
-	match: (p: Parser<any>) => boolean;
-	parse: (p: Parser<any>) => T;
-	run: (data: T, vm: Runner) => Type;
+	match: (p: Parser) => boolean;
+	parse: (p: Parser) => Stmt<T>;
 	precedence?: number;
+
+	run: (data: T, vm: VM, runner: Runner<AllContexts>) => void | Type;
 };
 
-export type ExpressionRule<T> = {
-	name: string;
-	precedence: number;
+export type ExpressionRule<
+	D = any,
+	R extends string | never = string,
+	N = string,
+> = {
+	name: N;
 	kind: string;
-	value: string;
-	parse: (
-		p: Parser<any>,
-		left: (AnyData)[],
-	) => T;
-	run: (data: T, vm: Runner) => Type;
+	value?: string;
+	prefix?: (p: Parser) => AnyData<D, R extends string ? R : N>;
+	infix?: (p: Parser, left: AnyData) => AnyData<D, R extends string ? R : N>;
+	precedence?: number;
+
+	runs?: R[];
+	run?: (p: D, vm: VM, runner: Runner) => Type;
+};
+
+export type ExecutionRule<D = any> = {
+	name: string;
+	run: (data: D, vm: VM) => void;
 };
 
 export type Token<K = string> = {
@@ -45,28 +56,45 @@ export type Token<K = string> = {
 	};
 };
 
-export type Keyword<T = string, R = any> = {
+export type Keyword<R = any> = {
 	name: string;
-	parse: (p: Parser<T>) => R;
+	parse: (p: Parser) => R;
 };
+type MergeUnion<U> = (U extends any ? (x: U) => void : never) extends (
+	x: infer I,
+) => void
+	? { [K in keyof I]: I[K] }
+	: never;
 
 export type Data<N, D> = {
 	name: N;
 	data: D;
 };
-
-export type Type = Data<
+type MergeInheritance<
+	T extends readonly Type<any, any, any, any>[],
+	K extends "public" | "private",
+	Acc = {},
+> = T extends readonly [
+	infer Head extends Type<any, any, any, any>,
+	...infer Tail extends readonly Type<any, any, any, any>[],
+]
+	? MergeInheritance<Tail, K, Merge<Acc, Head["data"][K]>>
+	: Acc;
+type Merge<A, B> = Omit<A, keyof B> & B;
+export type Type<
+	N extends string = string,
+	I extends readonly Type<any, any, any, any>[] = [],
+	Pu extends Record<string, Type<string, any, any, any>> = {},
+	Pr extends Record<string, any> = {},
+> = Data<
 	"type",
 	{
-		// Name of the type
-		name: string;
-		inheritance: string[];
+		name: N;
+		inheritance: I;
 
-		// Accessible via the lang
-		public: Record<string, any>;
+		public: Merge<MergeInheritance<I, "public">, Pu>;
 
-		// Accessible to the vm
-		private: Record<string, any>;
+		private: Merge<MergeInheritance<I, "private">, Pr>;
 	}
 >;
 
@@ -77,12 +105,34 @@ export type Variable = Data<
 	}
 >;
 
-export type Expr = Data<
+export type Expr<D extends any = any, N = string> = Data<
 	"expr",
 	{
-		name: string;
-		data: any;
+		name: N;
+		data: D;
 	}
 >;
 
-export type AnyData = Type | Variable | Expr
+export type Stmt<D = any, N = string> = Data<"stmt", { name: N; data: D }>;
+
+export type AnyData<D = any, N = string> =
+	| Type
+	| Variable
+	| Expr<D, N>
+	| Stmt<D, N>;
+
+// export type Function = Omit<Type, "data"> & {
+// 	data: Omit<Type["data"], "name" | "private">;
+// } & {
+// 	data: {
+// 		name: "function";
+// 		private: {
+// 			__call__: (
+// 				args: (Type | Variable | Expr)[],
+// 				runner: Runner,
+// 				vm: VM,
+// 			) => Type;
+// 			[key: string]: any;
+// 		};
+// 	};
+// };

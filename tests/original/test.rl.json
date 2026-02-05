@@ -1,11 +1,12 @@
 [
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "a",
         "pos": {
             "loc": 1,
             "line": 1,
-            "col": 2
+            "col": 1,
+            "file": "tests/original/test.r"
         }
     },
     {
@@ -14,268 +15,288 @@
         "pos": {
             "loc": 3,
             "line": 1,
-            "col": 4
+            "col": 3,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
-        "value": "(",
+        "kind": "num",
+        "value": "1",
         "pos": {
             "loc": 5,
             "line": 1,
-            "col": 6
+            "col": 5,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "num",
-        "value": "1",
+        "kind": "sym",
+        "value": "+",
         "pos": {
             "loc": 7,
             "line": 1,
-            "col": 8
+            "col": 7,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
-        "value": "+",
+        "kind": "num",
+        "value": "1",
         "pos": {
             "loc": 9,
             "line": 1,
-            "col": 10
+            "col": 9,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "num",
-        "value": "1",
-        "pos": {
-            "loc": 11,
-            "line": 1,
-            "col": 12
-        }
-    },
-    {
-        "kind": "sym",
-        "value": ")",
-        "pos": {
-            "loc": 13,
-            "line": 1,
-            "col": 14
-        }
-    },
-    {
-        "kind": "char",
+        "kind": "ident",
         "value": "fn",
         "pos": {
-            "loc": 25,
+            "loc": 15,
             "line": 3,
-            "col": 9
+            "col": 3,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "add",
         "pos": {
-            "loc": 29,
+            "loc": 19,
             "line": 3,
-            "col": 13
+            "col": 7,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
+        "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 30,
+            "loc": 20,
             "line": 3,
-            "col": 14
+            "col": 8,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "d",
         "pos": {
-            "loc": 31,
+            "loc": 21,
             "line": 3,
-            "col": 15
+            "col": 9,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "sym",
         "value": ",",
         "pos": {
-            "loc": 32,
+            "loc": 22,
             "line": 3,
-            "col": 16
+            "col": 10,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "b",
         "pos": {
-            "loc": 34,
+            "loc": 24,
             "line": 3,
-            "col": 18
+            "col": 12,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
+        "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 35,
+            "loc": 25,
             "line": 3,
-            "col": 19
+            "col": 13,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
+        "kind": "brac",
         "value": "{",
         "pos": {
-            "loc": 37,
+            "loc": 27,
             "line": 3,
-            "col": 21
+            "col": 15,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "c",
         "pos": {
-            "loc": 42,
+            "loc": 32,
             "line": 4,
-            "col": 4
+            "col": 4,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "sym",
         "value": "=",
         "pos": {
-            "loc": 44,
+            "loc": 34,
             "line": 4,
-            "col": 6
+            "col": 6,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "d",
         "pos": {
-            "loc": 46,
+            "loc": 36,
             "line": 4,
-            "col": 8
+            "col": 8,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "sym",
         "value": "+",
         "pos": {
-            "loc": 48,
+            "loc": 38,
             "line": 4,
-            "col": 10
+            "col": 10,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "b",
         "pos": {
-            "loc": 50,
+            "loc": 40,
             "line": 4,
-            "col": 12
+            "col": 12,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "return",
         "pos": {
-            "loc": 60,
+            "loc": 50,
             "line": 5,
-            "col": 9
+            "col": 9,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "c",
         "pos": {
-            "loc": 62,
+            "loc": 52,
             "line": 5,
-            "col": 11
+            "col": 11,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
+        "kind": "brac",
         "value": "}",
         "pos": {
-            "loc": 65,
+            "loc": 55,
             "line": 6,
-            "col": 2
+            "col": 2,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "b",
         "pos": {
-            "loc": 70,
+            "loc": 60,
             "line": 8,
-            "col": 2
+            "col": 2,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "sym",
         "value": "=",
         "pos": {
-            "loc": 72,
+            "loc": 62,
             "line": 8,
-            "col": 4
+            "col": 4,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "char",
+        "kind": "ident",
         "value": "add",
         "pos": {
-            "loc": 76,
+            "loc": 66,
             "line": 8,
-            "col": 8
+            "col": 8,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
+        "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 77,
+            "loc": 67,
             "line": 8,
-            "col": 9
+            "col": 9,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "num",
         "value": "1",
         "pos": {
-            "loc": 78,
+            "loc": 68,
             "line": 8,
-            "col": 10
+            "col": 10,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "sym",
         "value": ",",
         "pos": {
-            "loc": 79,
+            "loc": 69,
             "line": 8,
-            "col": 11
+            "col": 11,
+            "file": "tests/original/test.r"
         }
     },
     {
         "kind": "num",
         "value": "2",
         "pos": {
-            "loc": 81,
+            "loc": 71,
             "line": 8,
-            "col": 13
+            "col": 13,
+            "file": "tests/original/test.r"
         }
     },
     {
-        "kind": "sym",
+        "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 82,
+            "loc": 72,
             "line": 8,
-            "col": 14
+            "col": 14,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "EOF",
+        "value": null,
+        "pos": {
+            "loc": null,
+            "line": null,
+            "col": null,
+            "file": "tests/original/test.r"
         }
     }
 ]
