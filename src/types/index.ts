@@ -25,8 +25,8 @@ export type Function<R extends Type = Void> = Type<
 		code: AnyData[];
 		args: string[];
 		__call__: (
-			args: (TypeInstance<Type> | Expr | Variable)[],
-			runner: Runner,
+			args: Record<string, TypeInstance<Type>>,
+			runner: Runner<FunctionContext>,
 			vm: VM,
 			obj: TypeInstance<Type>,
 		) => TypeInstance<R>;
@@ -63,28 +63,9 @@ export const functionType = type<Function<any>>(
 	{
 		private: {
 			__call__(args, runner, vm, obj: TypeInstance<Function<any>>) {
-				if (!obj.data.private.code) return;
-				let bound = {} as Record<string, TypeInstance<Type>>;
-				if (obj.data.private.args) {
-					bound = args.reduce(
-						(acc, val, i) => {
-							const key = obj.data.private.args[i];
-							if (!key) {
-								throw new Error("Too many args");
-							}
-							const value = vm.execAny(val, runner);
-							acc[key] = value;
-							return acc;
-						},
-						{} as Record<string, TypeInstance<Type>>,
-					);
-				}
-				const ctx = new FunctionContext(bound, runner.ctx);
-				const r = new Runner(vm, ctx);
-
-				r.load(obj.data.private.code);
-				r.run();
-				return ctx.returnType;
+				runner.load(obj.data.private.code);
+				runner.run();
+				return runner.ctx.returnType;
 			},
 		},
 		public: {},
@@ -93,11 +74,13 @@ export const functionType = type<Function<any>>(
 
 export function fn<R extends Type>(
 	fn: Function<R>["metadata"]["pr"]["__call__"],
+	args: string[] = [],
 	name: string = "null",
 ): TypeInstance<Function<R>> {
 	const func = functionType();
 
 	func.data.private.__call__ = fn;
+	func.data.private.args = args
 	func.custom = true;
 	func.cname = name;
 	func.data.private.name = name;
@@ -217,6 +200,43 @@ export function call<
 	vm: VM,
 ): TypeInstance<R> {
 	if (!fn) throw new Error("No obj");
-	const ret = fn.data.private.__call__(args, runner, vm, obj);
+	const ags = [] as TypeInstance<Type>[];
+	const kwargs = {} as Record<string, TypeInstance<Type>>;
+	let kw = false;
+	args.forEach((arg) => {
+		if (arg.name === "type" || arg.name === "variable") {
+			if (kw) {
+				throw new Error("Arg after KW");
+			}
+			ags.push(vm.execAny(arg, runner));
+		} else {
+			if (arg.data.name === "assign") {
+				kw = true;
+				const targ = arg as any as Expr<
+					{
+						name: string;
+						val: Expr | Type | Variable;
+					},
+					"assign"
+				>;
+				kwargs[targ.data.data.name] = vm.execAny(targ.data.data.val, runner);
+			} else {
+				if (kw) {
+					throw new Error("Arg after KW");
+				}
+				ags.push(vm.execAny(arg, runner));
+			}
+		}
+	});
+	ags.forEach((arg, i) => {
+		const name = fn.data.private.args[i];
+		if (!name) throw Error("Too many args");
+		if (name in kwargs) throw Error("Overriding arg");
+
+		kwargs[name] = arg;
+	});
+	const ctx = new FunctionContext(kwargs, runner.ctx);
+	const r = new Runner(vm, ctx);
+	const ret = fn.data.private.__call__(kwargs, r, vm, obj);
 	return ret;
 }

@@ -20,7 +20,7 @@ register(
 	"print",
 	fn((args, runner, vm, obj) => {
 		console.log(
-			`${args
+			`${Object.values(args)
 				.map((a) => {
 					const val = vm.execAny(a, runner);
 					const obj = call(val, val.data.class.public.__str__, [], runner, vm);
@@ -29,7 +29,7 @@ register(
 				.join(" ")}`,
 		);
 		return voidType();
-	}),
+	}, ["a","b","c","d"]),
 );
 
 register("true", boolean(true))
