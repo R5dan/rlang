@@ -23,12 +23,12 @@ export default class Parser {
 		const t = this.peek();
 		if (t.kind !== kind) {
 			throw new Error(
-				`Parse error at (${t.pos.col}, ${t.pos.line}): expected kind '${kind}' got '${t.kind}'`,
+				`Parse error at (${t.pos.col}, ${t.pos.line}) - ${t.pos.loc}: expected kind '${kind}' got '${t.kind}'`,
 			);
 		}
 		if (value && value !== t.value) {
 			throw new Error(
-				`Parse error at (${t.pos.col}, ${t.pos.line}): expected value '${value}' got '${t.value}'`,
+				`Parse error at (${t.pos.col}, ${t.pos.line})- ${t.pos.loc}: expected value '${value}' got '${t.value}'`,
 			);
 		}
 		return t;
@@ -56,8 +56,9 @@ export default class Parser {
 		return this.tokens.slice(this.i + 1);
 	}
 
-	public is(kind: string, value?: string): boolean {
-		return this.peek().kind === kind && (!value || this.peek().value === value);
+	public is(kind: string, value?: string, token?: Token): boolean {
+		const ident = token ?? this.peek();
+		return ident.kind === kind && (!value || ident.value === value);
 	}
 
 	public isNot(kind: N, value?: string): boolean {
@@ -111,7 +112,6 @@ export default class Parser {
 		}
 
 		let left = prefixRule.prefix(this);
-		// console.log(`EXPR1: ${JSON.stringify(this.peek())}`);
 
 		// Step 2: repeatedly extend expression
 		while (true) {
@@ -130,7 +130,6 @@ export default class Parser {
 			if (prec <= minPrec) {
 				break;
 			}
-			// console.log(`EXPR2: ${JSON.stringify(this.peek())}`);
 
 			left = rule.infix(this, left);
 		}
@@ -141,12 +140,12 @@ export default class Parser {
 	public parseStmt() {
 		for (const rule of this.stmtRules) {
 			if (rule.match(this)) {
-				// console.log(`RULE: ${JSON.stringify(rule)}`);
+				`RULE: ${JSON.stringify(rule)}`;
 				const data = rule.parse(this);
 				return data;
 			}
 		}
-		// console.log(`EXPR`);
+		`EXPR`;
 		return this.parseExpr();
 	}
 
@@ -157,10 +156,8 @@ export default class Parser {
 		const statements = [];
 
 		while (this.isNotBrac("}") && this.isNot("EOF")) {
-			// console.log(`BLOK: ${JSON.stringify(this.peek())}`);
 			statements.push(this.parseStmt());
 		}
-		// console.log(`PEEK: ${JSON.stringify(this.peek())}`);
 
 		this.assert("brac", "}"); // }
 		this.advance();
@@ -171,7 +168,6 @@ export default class Parser {
 	public parse() {
 		const statements = [];
 		while (this.isNot("EOF")) {
-			// console.log(`PARSE ${JSON.stringify(this.peek())}`);
 			statements.push(this.parseStmt());
 		}
 		return statements;

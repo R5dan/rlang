@@ -6,9 +6,10 @@ import type {
 	LexingRule,
 	StatementRule,
 	Type,
+	TypeInstance,
 	Variable,
 } from "./type";
-import { call, functionType, numberType, type Number } from "./types";
+import { call, functionType, number, string, type Number } from "./types";
 import { Context, Runner } from "./vm";
 
 const stringRule = (input: string) => {
@@ -60,18 +61,14 @@ export const statementRules = [
 	{
 		name: "function",
 		match: (p) => {
-			// console.log(JSON.stringify(p.peek()));
 			return p.isIdent("fn");
 		},
 		parse: (p) => {
-			// console.log("PARSE FUNCTION");
 			// Consume 'fn' keyword
-			// console.log(`PEEK: ${JSON.stringify(p.peek())}`);
 
 			// Parse function name
 			const nameToken = p.expect("ident");
 			const name = nameToken.value!;
-			// console.log(`NAME: ${name}`);
 
 			// Parse opening parenthesis
 			p.expect("brac", "(");
@@ -79,10 +76,9 @@ export const statementRules = [
 			// Parse arguments
 			const args: string[] = [];
 			while (p.isNotBrac(")")) {
-				// console.log(`PEEK: ${JSON.stringify(p.peek())}`);
 				const argToken = p.expect("ident");
 				args.push(argToken.value!);
-				// console.log(`PEEK: ${JSON.stringify(p.peek())}`);
+
 				p.advance();
 				// Check for comma or closing parenthesis
 				if (p.isSym(",")) {
@@ -96,22 +92,28 @@ export const statementRules = [
 			p.advance();
 
 			// Parse function body (block)
-			const body = p.parseBlock();
-			// console.log(`BODY: ${JSON.stringify(body)}`);
-			return {
-				name: "stmt",
-				data: {
-					name: "function",
+			try {
+				const body = p.parseBlock();
+				return {
+					name: "stmt",
 					data: {
-						name,
-						args,
-						body,
+						name: "function",
+						data: {
+							name,
+							args,
+							body,
+						},
 					},
-				},
-			};
+				};
+			} catch (e) {
+				throw e;
+			}
 		},
 		run(data, vm, runner) {
-			const obj = functionType(undefined, data.body, data.args);
+			const obj = functionType();
+			obj.data.private.args = data.args;
+			obj.data.private.code = data.body;
+			obj.data.private.name = data.name;
 			runner.ctx.setVar(data.name, obj);
 			return obj;
 		},
@@ -126,7 +128,6 @@ export const statementRules = [
 			return p.isIdent("return");
 		},
 		parse: (p) => {
-			// console.log("RETURN");
 			p.advance();
 			const right = p.parseExpr(0, false);
 
@@ -139,8 +140,7 @@ export const statementRules = [
 			};
 		},
 		run(data, vm, runner) {
-			const ctx = vm.line?.ctx;
-			// console.log("RETURN");
+			const ctx = runner.ctx;
 
 			if (!ctx || ctx.special !== "function") {
 				throw new Error("Can only return from a function");
@@ -151,7 +151,7 @@ export const statementRules = [
 				ctx.returnType = vm.execAny(data, runner);
 			}
 		},
-	} satisfies StatementRule<Expr | Variable | Type | null>,
+	} satisfies StatementRule<Expr | Variable | TypeInstance<Type> | null>,
 	{
 		name: "if",
 		match: (p) => p.isIdent("if"),
@@ -159,7 +159,7 @@ export const statementRules = [
 			p.expect("brac", "(");
 			p.advance();
 			const expr = p.parseExpr();
-			p.expect("brac", ")");
+			p.assert("brac", ")");
 			p.advance();
 			const block = p.is("brac", "{") ? p.parseBlock() : [p.parseStmt()];
 
@@ -179,11 +179,12 @@ export const statementRules = [
 			const r = new Runner(vm, ctx);
 
 			const type = vm.execAny(data.expr, r);
-			if (type.data.name === "boolean" && type.data.private.value) {
+
+			if (type.data.class.name === "boolean" && type.data.private.value) {
 				r.load(data.block);
 				r.run();
 			} else if (
-				call(type.data.public.__bool__, [], runner, vm).data.private.value
+				call(type, type.data.public.__bool__, [], runner, vm).data.private.value
 			) {
 				r.load(data.block);
 				r.run();
@@ -197,7 +198,7 @@ export const statementRules = [
 			p.expect("brac", "(");
 			p.advance();
 			const expr = p.parseExpr();
-			p.expect("brac", ")");
+			p.assert("brac", ")");
 			p.advance();
 			const block = p.is("brac", "{") ? p.parseBlock() : [p.parseStmt()];
 
@@ -217,16 +218,17 @@ export const statementRules = [
 			const r = new Runner(vm, ctx);
 			while (true) {
 				const type = vm.execAny(data.expr, r);
-				if (type.data.name === "boolean" && type.data.private.value) {
+				if (type.data.class.name === "boolean" && type.data.private.value) {
 					r.load(data.block);
 					r.run();
 				} else if (
-					call(type.data.public.__bool__, [], runner, vm).data.private.value
+					call(type, type.data.class.public.__bool__, [], runner, vm).data
+						.private.value
 				) {
 					r.load(data.block);
 					r.run();
 				} else {
-					break
+					break;
 				}
 			}
 		},
@@ -241,10 +243,8 @@ export const expressionRules = [
 		value: "+",
 		infix(p, left) {
 			const op = p.advance();
-			// console.log(`ADD: ${JSON.stringify(p.peek())}`);
 
 			const right = p.parseExpr(20);
-			// console.log(`ADD: ${JSON.stringify(p.peek())}`);
 
 			return {
 				name: "expr",
@@ -258,16 +258,19 @@ export const expressionRules = [
 			};
 		},
 		run(data, vm, runner) {
-			// console.log(JSON.stringify(data));
-			const left = vm.execAny(data.data.left, runner) as Type | Number;
-			const right = vm.execAny(data.data.right, runner) as Type | Number;
+			const left = vm.execAny(data.data.left, runner) as TypeInstance<
+				Number | Type
+			>;
+			const right = vm.execAny(data.data.right, runner) as TypeInstance<
+				Number | Type
+			>;
 			if (
 				left.name === "type" &&
-				left.data.name === "number" &&
+				left.data.class.name === "number" &&
 				right.name === "type" &&
-				right.data.name === "number"
+				right.data.class.name === "number"
 			) {
-				return numberType(left.data.private.value + right.data.private.value);
+				return number(left.data.private.value + right.data.private.value);
 			}
 			throw new Error("End of func");
 		},
@@ -295,6 +298,19 @@ export const expressionRules = [
 		infix: (p, left) => {
 			// CALL
 			const args = [];
+			if (p.is("brac", ")", p.peek(1))) {
+				p.advance(2);
+				return {
+					name: "expr",
+					data: {
+						name: "call" as const,
+						data: {
+							var: left,
+							args: [],
+						},
+					},
+				};
+			}
 			while (p.isNotBrac(")")) {
 				p.advance();
 				const arg = p.parseExpr();
@@ -322,7 +338,7 @@ export const expressionRules = [
 				return vm.execAny(data.data, runner);
 			} else if (data.name === "call") {
 				const var_ = vm.execAny(data.data.var, runner);
-				return call(var_, data.data.args, runner, vm);
+				return call(var_, var_, data.data.args, runner, vm);
 			} else {
 				throw new Error("Invalid use of brackets");
 			}
@@ -339,10 +355,8 @@ export const expressionRules = [
 		kind: "ident",
 		prefix: (p) => {
 			const name = p.peek();
-			// console.log(`var1: ${JSON.stringify(p.peek())}`);
 
 			p.advance();
-			// console.log(`VAR2: ${JSON.stringify(p.peek())}`);
 
 			return {
 				name: "variable",
@@ -359,7 +373,16 @@ export const expressionRules = [
 		prefix: (p) => {
 			const data = p.peek();
 			p.advance();
-			return numberType(data.value);
+			return {
+				name: "typeHolder",
+				data: {
+					name: "number",
+					private: {
+						value: data.value,
+					},
+					public: {},
+				},
+			};
 		},
 		precedence: 1000,
 	},
@@ -369,13 +392,10 @@ export const expressionRules = [
 		value: "=",
 		infix: (p, left) => {
 			const name = p.peek(-1);
-			// console.log(`ASSIGN1: ${JSON.stringify(p.peek())}`);
 
 			p.advance();
-			// console.log(`ASSIGN2: ${JSON.stringify(p.peek())}`);
 
 			const val = p.parseExpr();
-			// console.log(`ASSIGN3: ${JSON.stringify(p.peek())}`);
 
 			return {
 				name: "expr",
@@ -389,11 +409,10 @@ export const expressionRules = [
 			};
 		},
 		run: (p, vm, runner) => {
-			// console.log("ASSIGN");
-			// console.log(p);
 			const val = vm.execAny(p.data.val, runner);
+
 			runner.ctx.ctx[p.data.name] = val;
-			// console.log("END ASSIGN");
+
 			return val;
 		},
 		precedence: 100000,

@@ -1,23 +1,29 @@
-import type { AnyData, Expr, Stmt, Type, Variable } from "../type";
+import type {
+	AnyData,
+	Expr,
+	Stmt,
+	Type,
+	TypeHolder,
+	TypeInstance,
+	Variable,
+} from "../type";
 import { EventEmitter } from "node:events";
 import { statementRules, expressionRules } from "../rules";
-import { voidType } from "../types";
+import { booleanType, numberType, stringType, voidType } from "../types";
 
 export type ContextType = {
-	ctx: Record<string, Type>;
+	ctx: Record<string, TypeInstance<Type>>;
 	special: string | null;
 	parent: ContextType | null;
-	getVar(variable: Variable): Type;
+	getVar(variable: Variable): TypeInstance<Type>;
 };
 
 abstract class BaseContext implements ContextType {
-	public ctx: Record<string, Type> = {};
+	public ctx: Record<string, TypeInstance<Type>> = {};
 	public abstract special: string | null;
 	constructor(public parent: ContextType | null = null) {}
 
-	getVar(variable: Variable): Type {
-		// console.log("GET");
-		// console.log(JSON.stringify(this.ctx));
+	getVar(variable: Variable): TypeInstance<Type> {
 		const name = variable.data.name;
 		if (this.ctx[name]) return this.ctx[name];
 		if (this.parent) return this.parent.getVar(variable);
@@ -25,7 +31,7 @@ abstract class BaseContext implements ContextType {
 		throw new Error(`Variable ${name} not found`);
 	}
 
-	setVar(variable: Variable | string, data: Type): void {
+	setVar(variable: Variable | string, data: TypeInstance<Type>): void {
 		if (typeof variable === "string") {
 			this.ctx[variable] = data;
 		} else {
@@ -39,10 +45,13 @@ export class Context extends BaseContext implements ContextType {
 }
 
 export class FunctionContext extends BaseContext implements ContextType {
-	public returnType: Type = voidType();
+	public returnType: TypeInstance<Type> = voidType();
 	public override special = "function" as const;
 
-	constructor(args: Record<string, Type>, parent: ContextType | null = null) {
+	constructor(
+		args: Record<string, TypeInstance<Type>>,
+		parent: ContextType | null = null,
+	) {
 		super(parent);
 		this.ctx = { ...this.ctx, ...args };
 	}
@@ -63,18 +72,23 @@ export class Line<C extends ContextType = AllContexts> {
 }
 
 export class VM {
-	public eventEmitter = new EventEmitter();
+	public types = {
+		string: stringType,
+		number: numberType,
+		boolean: booleanType,
+	};
+
 	public worker = new Worker("./worker.ts");
 	public line: Line | null = null;
 	public break: boolean = false;
-	// public ctxs: Generator<void, Type, void>[] = [];
+
 	constructor(
 		public queue: Line[],
 		public microtasks: (() => void)[],
 		public microevents: (() => void)[],
 	) {}
 
-	execExpr(expr: Expr, runner: Runner): Type {
+	execExpr(expr: Expr, runner: Runner): TypeInstance<Type> {
 		const data = expr.data;
 		const name = expr.data.name;
 
@@ -87,7 +101,7 @@ export class VM {
 		if (!rule) throw new Error(`No rule for '${name}'`);
 		if (!rule.run) throw new Error(`No run for rule '${name}'`);
 
-		return rule.run(data, this, runner) as Type;
+		return rule.run(data, this, runner) as TypeInstance<Type>;
 	}
 
 	execStmt(stmt: Stmt, runner: Runner): void {
@@ -100,9 +114,7 @@ export class VM {
 		rule.run(data, this, runner);
 	}
 
-	exec(expr: Stmt | Expr, runner: Runner): Type | void {
-		// console.log("EXEC");
-		// console.log(runner);
+	exec(expr: Stmt | Expr, runner: Runner): TypeInstance<Type> | void {
 		if (expr.name === "stmt") {
 			return this.execStmt(expr, runner);
 		} else if (expr.name === "expr") {
@@ -110,26 +122,39 @@ export class VM {
 		}
 	}
 
-	getVar(variable: Variable): Type {
+	getVar(variable: Variable): TypeInstance<Type> {
 		const var_ = this.line?.ctx.getVar(variable);
 		if (!var_) throw new Error(`Variable ${variable.data.name} not found`);
 		return var_;
 	}
 
 	execLine(line: Line): void {
-		// console.log(JSON.stringify(line.data));
-		const data = line.data;
-		this.exec(data, line.runner);
-		line.exec();
+		try {
+			const data = line.data;
+			this.exec(data, line.runner);
+			line.exec();
+		} catch (e) {
+			console.error("\n\nERROR:");
+			console.error(line.data);
+			throw e;
+		}
 	}
 
-	execAny(data: Expr | Type | Variable, runner: Runner): Type {
+	execAny(
+		data: Expr | TypeInstance<Type> | Variable | TypeHolder,
+		runner: Runner,
+	): TypeInstance<Type> {
 		if (data.name === "expr") {
 			return this.execExpr(data, runner);
 		} else if (data.name === "variable") {
 			return this.getVar(data);
 		} else if (data.name === "type") {
 			return data;
+		} else if (data.name === "typeHolder") {
+			const obj = this.types[data.data.name]() as TypeInstance<Type>;
+			obj.data.public = { ...obj.data.public, ...data.data.public };
+			obj.data.private = { ...obj.data.private, ...data.data.private };
+			return obj;
 		}
 		throw new Error("Invalid data");
 	}
@@ -145,31 +170,16 @@ export class VM {
 		break_: number = -1,
 	) {
 		try {
-			// console.log(queue);
 			let i = 0;
 			while (true) {
 				const e = this.runTick(queue, microtasks, microevents);
-				// // console.log("TICK")
+				//
 				if (this.break) {
 					break;
 				}
 				if (break_ && i > break_ && !queue.length) {
-					// console.log("\n\n\n");
-					// console.log(
-					// 	JSON.stringify(
-					// 		queue.map((l) => {
-					// 			const { data } = l;
-					// 			return data;
-					// 		}),
-					// 	),
-					// );
-					// console.log("\n\n\n");
 					break;
 				} else {
-					// 	console.log(i);
-					// 	console.log(!queue.length);
-					// 	console.log(i > break_);
-					// 	console.log(!!break_ && i > break_ && !queue.length);
 				}
 				if (!e) {
 					i++;
@@ -178,7 +188,6 @@ export class VM {
 				}
 			}
 		} catch (e) {
-			// console.log(this.queue);
 			throw e;
 		}
 	}
@@ -189,18 +198,15 @@ export class VM {
 		microevents: (() => void)[],
 	) {
 		let event = false;
-		// console.log("\n\n\nTICK\n");
-		// console.log([...queue]);
+
 		while (true) {
 			const line = queue.shift();
-			// console.log("LINE");
+
 			if (!line) {
-				// console.log([...queue]);
-				// console.log(line);
 				break;
 			}
+			// console.log(line)
 			// const { data } = { ...line };
-			// console.log(JSON.stringify(data));
 
 			event = true;
 			this.line = line;

@@ -1,16 +1,16 @@
-import { functionType, type, voidType, object } from "../types";
-import type { AnyData, Expr, Type, Variable } from "../type";
+import { fn, type, voidType, object, boolean } from "../types";
+import type { AnyData, Expr, Type, TypeInstance, Variable } from "../type";
 import { call } from "../types";
 import { Context, Runner, VM } from "../vm";
 
 const ctx = new Context();
-function register(name: string, data: Type) {
+function register(name: string, data: TypeInstance<Type>) {
 	ctx.setVar(name, data);
 }
 
 register(
 	"exit",
-	functionType((args, runner, vm) => {
+	fn((args, runner, vm, obj) => {
 		vm.break = true;
 		return voidType();
 	}),
@@ -18,17 +18,22 @@ register(
 
 register(
 	"print",
-	functionType((args: (Variable | Expr | Type)[], runner: Runner, vm: VM) => {
+	fn((args, runner, vm, obj) => {
 		console.log(
 			`${args
-				.map((a) =>
-					call(vm.execAny(a, runner).data.private.__str__, [], runner, vm).data.private.value,
-				)
+				.map((a) => {
+					const val = vm.execAny(a, runner);
+					const obj = call(val, val.data.class.public.__str__, [], runner, vm);
+					return obj.data.private.value;
+				})
 				.join(" ")}`,
 		);
 		return voidType();
 	}),
 );
+
+register("true", boolean(true))
+register("false", boolean(false))
 
 // register("console", {
 // 	name: "console",

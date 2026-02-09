@@ -74,29 +74,23 @@
                             },
                             "args": [
                                 {
-                                    "name": "type",
+                                    "name": "typeHolder",
                                     "data": {
                                         "name": "number",
-                                        "inheritance": [
-                                            "object"
-                                        ],
-                                        "public": {},
                                         "private": {
                                             "value": 1
-                                        }
+                                        },
+                                        "public": {}
                                     }
                                 },
                                 {
-                                    "name": "type",
+                                    "name": "typeHolder",
                                     "data": {
                                         "name": "number",
-                                        "inheritance": [
-                                            "object"
-                                        ],
-                                        "public": {},
                                         "private": {
                                             "value": 2
-                                        }
+                                        },
+                                        "public": {}
                                     }
                                 }
                             ]
@@ -125,29 +119,23 @@
                             },
                             "args": [
                                 {
-                                    "name": "type",
+                                    "name": "typeHolder",
                                     "data": {
                                         "name": "number",
-                                        "inheritance": [
-                                            "object"
-                                        ],
-                                        "public": {},
                                         "private": {
                                             "value": 3
-                                        }
+                                        },
+                                        "public": {}
                                     }
                                 },
                                 {
-                                    "name": "type",
+                                    "name": "typeHolder",
                                     "data": {
                                         "name": "number",
-                                        "inheritance": [
-                                            "object"
-                                        ],
-                                        "public": {},
                                         "private": {
                                             "value": 4
-                                        }
+                                        },
+                                        "public": {}
                                     }
                                 }
                             ]
@@ -163,67 +151,57 @@
             "name": "while",
             "data": {
                 "expr": {
-                    "name": "type",
+                    "name": "variable",
                     "data": {
-                        "name": "boolean",
-                        "inheritance": [
-                            "object"
-                        ],
-                        "public": {},
-                        "private": {
-                            "value": true
-                        }
+                        "name": "true"
                     }
                 },
-                "block": {
-                    "name": "stmt",
-                    "data": {
-                        "name": "if",
+                "block": [
+                    {
+                        "name": "stmt",
                         "data": {
-                            "expr": {
-                                "name": "type",
-                                "data": {
-                                    "name": "boolean",
-                                    "inheritance": [
-                                        "object"
-                                    ],
-                                    "public": {},
-                                    "private": {
-                                        "value": true
-                                    }
-                                }
-                            },
-                            "block": {
-                                "name": "expr",
-                                "data": {
-                                    "name": "call",
+                            "name": "if",
+                            "data": {
+                                "expr": {
+                                    "name": "variable",
                                     "data": {
-                                        "var": {
-                                            "name": "variable",
-                                            "data": {
-                                                "name": "print"
-                                            }
-                                        },
-                                        "args": [
-                                            {
-                                                "name": "variable",
-                                                "data": {
-                                                    "name": "f"
-                                                }
-                                            },
-                                            {
-                                                "name": "variable",
-                                                "data": {
-                                                    "name": "g"
-                                                }
-                                            }
-                                        ]
+                                        "name": "true"
                                     }
-                                }
+                                },
+                                "block": [
+                                    {
+                                        "name": "expr",
+                                        "data": {
+                                            "name": "call",
+                                            "data": {
+                                                "var": {
+                                                    "name": "variable",
+                                                    "data": {
+                                                        "name": "print"
+                                                    }
+                                                },
+                                                "args": [
+                                                    {
+                                                        "name": "variable",
+                                                        "data": {
+                                                            "name": "f"
+                                                        }
+                                                    },
+                                                    {
+                                                        "name": "variable",
+                                                        "data": {
+                                                            "name": "g"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         }
                     }
-                }
+                ]
             }
         }
     },

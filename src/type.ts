@@ -32,8 +32,8 @@ export type ExpressionRule<
 	name: N;
 	kind: string;
 	value?: string;
-	prefix?: (p: Parser) => AnyData<D, R extends string ? R : N>;
-	infix?: (p: Parser, left: AnyData) => AnyData<D, R extends string ? R : N>;
+	prefix?: (p: Parser) => AnyData<D, R extends string ? R : N> | TypeHolder;
+	infix?: (p: Parser, left: AnyData) => AnyData<D, R extends string ? R : N> | TypeHolder;
 	precedence?: number;
 
 	runs?: R[];
@@ -70,31 +70,51 @@ export type Data<N, D> = {
 	name: N;
 	data: D;
 };
-type MergeInheritance<
-	T extends readonly Type<any, any, any, any>[],
-	K extends "public" | "private",
-	Acc = {},
-> = T extends readonly [
-	infer Head extends Type<any, any, any, any>,
-	...infer Tail extends readonly Type<any, any, any, any>[],
-]
-	? MergeInheritance<Tail, K, Merge<Acc, Head["data"][K]>>
-	: Acc;
+
 type Merge<A, B> = Omit<A, keyof B> & B;
+
+export type TypeHolder = Data<"typeHolder", {
+	name: string,
+	public: Record<string, Expr|Variable|TypeHolder>
+	private: Record<string, any>
+}>
+
 export type Type<
 	N extends string = string,
-	I extends readonly Type<any, any, any, any>[] = [],
-	Pu extends Record<string, Type<string, any, any, any>> = {},
+	I extends readonly Type<any, any, any, any>["type"][] = any[],
+	CPu extends Record<string, TypeInstance<Type<string, any, any, any>>> = {},
+	CPr extends Record<string, any> = {},
+	Pr extends Record<string, any> = {},
+	Pu extends Record<string, TypeInstance<Type<any, any, any, any, any, any>>> = {},
+> = {
+	type: {
+		name: N;
+		inheritance: I;
+		public: CPu;
+		private: CPr;
+	};
+	metadata: {
+		pr: Pr;
+		pu: Pu;
+	};
+};
+
+export type TypeInstance<
+	T extends Type,
+	Pu extends Record<string, Type<string, any[], any, any, any, any>> = {},
 	Pr extends Record<string, any> = {},
 > = Data<
 	"type",
 	{
-		name: N;
-		inheritance: I;
-
-		public: Merge<MergeInheritance<I, "public">, Pu>;
-
-		private: Merge<MergeInheritance<I, "private">, Pr>;
+		public: Merge<
+			T extends Type<any, any, any, any, any, infer M> ? M : {},
+			Pu
+		>;
+		private: Merge<
+			T extends Type<any, any, any, any, infer M, any> ? M : {},
+			Pr
+		>;
+		class: T["type"];
 	}
 >;
 
