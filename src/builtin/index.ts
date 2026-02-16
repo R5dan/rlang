@@ -29,7 +29,7 @@ register(
 				.join(" ")}`,
 		);
 		return voidType();
-	}, ["a","b","c","d"]),
+	}, ["a","b","c","d"] as const),
 );
 
 register("true", boolean(true))
