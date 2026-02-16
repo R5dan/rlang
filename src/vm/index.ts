@@ -81,11 +81,12 @@ export class VM {
 	public worker = new Worker("./worker.ts");
 	public line: Line | null = null;
 	public break: boolean = false;
+	public eventId: number = 1
 
 	constructor(
 		public queue: Line[],
 		public microtasks: (() => void)[],
-		public microevents: (() => void)[],
+		public microevents: Record<number, () => void>,
 	) {}
 
 	execExpr(expr: Expr, runner: Runner): TypeInstance<Type> {
@@ -222,7 +223,7 @@ export class VM {
 		}
 
 		let i = 0;
-		while (i < microevents.length) {
+		while (i < Object.values(microevents).length) {
 			const fn = microevents[i];
 			if (!fn) break;
 			event = true;
@@ -236,8 +237,15 @@ export class VM {
 		this.microtasks.push(fn);
 	}
 
-	addEvent(fn: () => void): void {
-		this.microevents.push(fn);
+	addEvent(fn: () => void): number {
+		const id = this.eventId
+		this.microevents[id] = fn
+		this.eventId++
+		return id
+	}
+
+	removeEvent(id: number) {
+		delete this.microevents[id]
 	}
 
 	background() {}
