@@ -95,7 +95,7 @@ export default class Parser {
 	): R extends true ? Type | Variable | Expr : (Type | Variable | Expr) | null {
 		let prefixRule = null;
 		for (const rule of this.exprRules) {
-			if (rule?.prefix && this.is(rule.kind, rule.value)) {
+			if (rule?.prefix && rule.match(this)) {
 				prefixRule = rule;
 				break;
 			}
@@ -117,7 +117,7 @@ export default class Parser {
 		while (true) {
 			let rule = null;
 			for (const r of this.exprRules) {
-				if (r?.infix && this.is(r.kind, r.value)) {
+				if (r?.infix && r.match(this)) {
 					rule = r;
 					break;
 				}

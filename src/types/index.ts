@@ -5,7 +5,7 @@ export type Object<C extends Type = Void> = Type<
 	"object",
 	[],
 	{
-		__call__: TypeInstance<Function<C>>;
+		__call__: TypeInstance<Function<C,string[]>>;
 		__str__: TypeInstance<Function<String>>;
 		__bool__: TypeInstance<Function<Boolean>>;
 		__get__: TypeInstance<Function<Type>>;
@@ -14,18 +14,18 @@ export type Object<C extends Type = Void> = Type<
 
 export type Void = Type<"void">;
 
-export type Function<R extends Type = Void> = Type<
+export type Function<R extends Type = Void, A extends string[]=[]> = Type<
 	"function",
 	[],
 	{},
 	{
-		inst: TypeInstance<Function<R>>["data"];
+		inst: TypeInstance<Function<A, R>>["data"];
 	},
 	{
 		code: AnyData[];
-		args: string[];
+		args: A;
 		__call__: (
-			args: Record<string, TypeInstance<Type>>,
+			args: Record<A[number], TypeInstance<Type>>,
 			runner: Runner<FunctionContext>,
 			vm: VM,
 			obj: TypeInstance<Type>,
@@ -72,11 +72,11 @@ export const functionType = type<Function<any>>(
 	},
 );
 
-export function fn<R extends Type>(
-	fn: Function<R>["metadata"]["pr"]["__call__"],
-	args: string[] = [],
+export function fn<R extends Type, A extends string[]=[]>(
+	fn: Function<R, A>["metadata"]["pr"]["__call__"],
+	args: A = [] as any as A,
 	name: string = "null",
-): TypeInstance<Function<R>> {
+): TypeInstance<Function<R, A>> {
 	const func = functionType();
 
 	func.data.private.__call__ = fn;
@@ -93,8 +93,8 @@ export const object = type<Object>({
 	public: {
 		__str__: fn<String>((args, runner, vm, obj) => {
 			return string(`<${obj.data.class.type.name}>`);
-		}, "obj"),
-		__bool__: fn<Boolean>((args, runner, vm) => booleanType(true)),
+		}, [], "obj"),
+		__bool__: fn<Boolean>((args, runner, vm) => boolean(true)),
 	},
 	private: {},
 });
@@ -139,7 +139,7 @@ export const numberType = type<Number>({
 	public: {
 		__str__: fn((args, runner, vm, obj) => {
 			return string(obj.data.private.value);
-		}, "num"),
+		}, [], "num"),
 	},
 	private: {
 		value: NaN,
@@ -159,7 +159,7 @@ export const stringType = type<String>({
 	public: {
 		__str__: fn((args, runner, vm, obj) => {
 			return string(obj.data.private.value);
-		}, "str"),
+		}, [], "str"),
 	},
 });
 
@@ -178,7 +178,7 @@ export const booleanType = type<Boolean>({
 		}),
 		__str__: fn<String>((args, r, vm, obj) => {
 			return string(obj.data.private.value);
-		}, "bool"),
+		}, [], "bool"),
 	},
 	private: {},
 });
@@ -190,8 +190,9 @@ export function boolean(value: boolean) {
 }
 
 export function call<
-	T extends TypeInstance<Function<R>> | undefined,
+	T extends TypeInstance<Function<R, A>> | undefined,
 	R extends Type,
+	A extends string[]
 >(
 	obj: TypeInstance<Type>,
 	fn: T,

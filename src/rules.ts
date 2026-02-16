@@ -14,8 +14,11 @@ import { Context, Runner } from "./vm";
 
 const stringRule = (input: string) => {
 	let i = 1;
+	console.log(`str:\n${input}`)
 	const quote = input[0];
+	console.log(`quote:\n'${input[0]}'`)
 	if (!quote) {
+		console.log("NO QUOTE")
 		return null;
 	} else if (!/"'`/.test(quote)) {
 		return null;
@@ -23,6 +26,7 @@ const stringRule = (input: string) => {
 	while (true) {
 		const ch = input[i];
 		if (!ch) {
+			console.log(`EXIT: ${ch}`)
 			return null;
 		}
 		if (ch === quote) {
@@ -47,13 +51,12 @@ export const lexingRules = [
 	},
 	{
 		name: "sym",
-		regex: /^[+\-*\\/%<>=!,]+/,
+		regex: /^[+\-*\\/%<>=!,'"`]+/,
 	},
 	{
 		name: "brac",
 		regex: /^[(){}[\]]/,
 	},
-	{ name: "str", match: stringRule },
 	{ name: "eol", regex: /^[\n;]/ },
 ] satisfies LexingRule<"num" | "ident" | "sym" | "brac" | "str" | "eol", any>[];
 
@@ -237,10 +240,40 @@ export const statementRules = [
 
 export const expressionRules = [
 	{
+		name: "string",
+		precedence: 1000,
+		match: (p) => p.isSym("'") || p.isSym("`") || p.isSym(`"`),
+		prefix: (p) => {
+			const quote = p.peek()
+			let str = ""
+			while (true) {
+				const char = p.advance()
+				if (char.value === quote.value) {
+					break
+				} else if (p.is("sym", "\\", char)) {
+					str += p.advance().value
+				} else {
+					str += char.value
+				}
+			}
+			p.advance()
+
+			return {
+				name: "typeHolder",
+				data: {
+					name: "string",
+					private: {
+						value: str
+					},
+					public: {}
+				}
+			}
+		}
+	},
+	{
 		name: "add",
 		precedence: 20,
-		kind: "sym",
-		value: "+",
+		match: (p) => p.isSym("+"),
 		infix(p, left) {
 			const op = p.advance();
 
@@ -279,8 +312,7 @@ export const expressionRules = [
 		name: "bracket",
 		runs: ["call", "group"],
 		precedence: 1000,
-		kind: "brac",
-		value: "(",
+		match: (p) => p.isBrac("(")
 		prefix: (p) => {
 			// GROUP
 			p.advance();
@@ -352,7 +384,7 @@ export const expressionRules = [
 	>,
 	{
 		name: "var",
-		kind: "ident",
+		match: (p) => p.isIdent(),
 		prefix: (p) => {
 			const name = p.peek();
 
@@ -369,7 +401,7 @@ export const expressionRules = [
 	},
 	{
 		name: "number",
-		kind: "num",
+		match: (p) => p.is("num"),
 		prefix: (p) => {
 			const data = p.peek();
 			p.advance();
@@ -378,7 +410,7 @@ export const expressionRules = [
 				data: {
 					name: "number",
 					private: {
-						value: data.value,
+						value: Number(data.value),
 					},
 					public: {},
 				},
@@ -388,8 +420,7 @@ export const expressionRules = [
 	},
 	{
 		name: "assign",
-		kind: "sym",
-		value: "=",
+		match: (p) => p.isSym("=")
 		infix: (p, left) => {
 			const name = p.peek(-1);
 
@@ -425,8 +456,7 @@ export const expressionRules = [
 	}>,
 	{
 		name: "decimal",
-		kind: "sym",
-		value: ".",
+		match: (p) => p.isSym(".")
 		runs: ["access"],
 		infix: (p, left) => {
 			const prop = p.expect("ident");
