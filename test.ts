@@ -1,8 +1,6 @@
 // import Lexer from "./src/lexer";
 // import path from "path";
 
-
-
 // const lexer = new Lexer();
 // const file = Bun.file("tests\\func\\test.r");
 // const contents = await file.text();

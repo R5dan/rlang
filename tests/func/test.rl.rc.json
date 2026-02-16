@@ -6,7 +6,7 @@
             "data": {
                 "name": "add",
                 "args": [
-                    "d",
+                    "a",
                     "b"
                 ],
                 "body": [
@@ -24,7 +24,7 @@
                                             "left": {
                                                 "name": "variable",
                                                 "data": {
-                                                    "name": "d"
+                                                    "name": "a"
                                                 }
                                             },
                                             "right": {
@@ -84,13 +84,22 @@
                                     }
                                 },
                                 {
-                                    "name": "typeHolder",
+                                    "name": "expr",
                                     "data": {
-                                        "name": "number",
-                                        "private": {
-                                            "value": 2
-                                        },
-                                        "public": {}
+                                        "name": "assign",
+                                        "data": {
+                                            "name": "b",
+                                            "val": {
+                                                "name": "typeHolder",
+                                                "data": {
+                                                    "name": "number",
+                                                    "private": {
+                                                        "value": 2
+                                                    },
+                                                    "public": {}
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             ]
