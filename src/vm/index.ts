@@ -78,7 +78,6 @@ export class VM {
 		boolean: booleanType,
 	};
 
-	public worker = new Worker("./worker.ts");
 	public line: Line | null = null;
 	public break: boolean = false;
 	public eventId: number = 1
