@@ -159,9 +159,9 @@ export const stringType = type<String>({
 	},
 });
 
-export function string(value: string) {
+export function string(value: unknown) {
 	const obj = stringType();
-	obj.data.private.value = value;
+	obj.data.private.value = String(value);
 	return obj;
 }
 
