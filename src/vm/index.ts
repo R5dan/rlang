@@ -7,7 +7,6 @@ import type {
 	TypeInstance,
 	Variable,
 } from "../type";
-import { EventEmitter } from "node:events";
 import { statementRules, expressionRules } from "../rules";
 import { booleanType, numberType, stringType, voidType } from "../types";
 
