@@ -12,34 +12,6 @@ import type {
 import { call, functionType, number, string, type Number } from "./types";
 import { Context, Runner } from "./vm";
 
-const stringRule = (input: string) => {
-	let i = 1;
-	console.log(`str:\n${input}`)
-	const quote = input[0];
-	console.log(`quote:\n'${input[0]}'`)
-	if (!quote) {
-		console.log("NO QUOTE")
-		return null;
-	} else if (!/"'`/.test(quote)) {
-		return null;
-	}
-	while (true) {
-		const ch = input[i];
-		if (!ch) {
-			console.log(`EXIT: ${ch}`)
-			return null;
-		}
-		if (ch === quote) {
-			i++;
-			return {
-				length: i,
-				text: input.slice(0, i),
-			};
-		}
-		i++;
-	}
-};
-
 export const lexingRules = [
 	{
 		name: "num",
