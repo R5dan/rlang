@@ -25,7 +25,7 @@ abstract class BaseContext implements ContextType {
 
 	getVar(variable: Variable): TypeInstance<Type> {
 		const name = variable.data.name;
-		if (this.ctx[name]) return this.ctx[name];
+		if (name in this.ctx) return this.ctx[name]!;
 		if (this.parent) return this.parent.getVar(variable);
 
 		throw new Error(`Variable ${name} not found`);
