@@ -312,7 +312,7 @@ export const expressionRules = [
 		name: "bracket",
 		runs: ["call", "group"],
 		precedence: 1000,
-		match: (p) => p.isBrac("(")
+		match: (p) => p.isBrac("("),
 		prefix: (p) => {
 			// GROUP
 			p.advance();
@@ -420,7 +420,7 @@ export const expressionRules = [
 	},
 	{
 		name: "assign",
-		match: (p) => p.isSym("=")
+		match: (p) => p.isSym("="),
 		infix: (p, left) => {
 			const name = p.peek(-1);
 
@@ -456,7 +456,7 @@ export const expressionRules = [
 	}>,
 	{
 		name: "decimal",
-		match: (p) => p.isSym(".")
+		match: (p) => p.isSym("."),
 		runs: ["access"],
 		infix: (p, left) => {
 			const prop = p.expect("ident");
