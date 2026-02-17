@@ -88,7 +88,7 @@ export const object = type<Object>({
 	inheritance: [],
 	public: {
 		__str__: fn<String>((args, runner, vm, obj) => {
-			return string(`<${obj.data.class.type.name}>`);
+			return string(`<${obj.data.class.name}>`);
 		}, [], "obj"),
 		__bool__: fn<Boolean>((args, runner, vm) => boolean(true)),
 	},
