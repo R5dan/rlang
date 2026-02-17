@@ -32,7 +32,7 @@ export type ExpressionRule<
 	name: N;
 	match: (p: Parser) => boolean
 	prefix?: (p: Parser) => AnyData<D, R extends string ? R : N> | TypeHolder;
-	infix?: (p: Parser, left: AnyData) => AnyData<D, R extends string ? R : N> | TypeHolder;
+	infix?: (p: Parser, left: Expr|Variable) => AnyData<D, R extends string ? R : N> | TypeHolder;
 	precedence?: number;
 
 	runs?: R[];
@@ -59,11 +59,6 @@ export type Keyword<R = any> = {
 	name: string;
 	parse: (p: Parser) => R;
 };
-type MergeUnion<U> = (U extends any ? (x: U) => void : never) extends (
-	x: infer I,
-) => void
-	? { [K in keyof I]: I[K] }
-	: never;
 
 export type Data<N, D> = {
 	name: N;
@@ -135,7 +130,7 @@ export type Expr<D extends any = any, N = string> = Data<
 export type Stmt<D = any, N = string> = Data<"stmt", { name: N; data: D }>;
 
 export type AnyData<D = any, N = string> =
-	| Type
+	| TypeInstance<Type>
 	| Variable
 	| Expr<D, N>
 	| Stmt<D, N>;

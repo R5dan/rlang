@@ -394,7 +394,15 @@ export const expressionRules = [
 		name: "assign",
 		match: (p) => p.isSym("="),
 		infix: (p, left) => {
-			const name = p.peek(-1);
+			let name: string;
+			if (left.name === "variable") {
+				name = left.data.name
+			} else if (left.name === "expr" && left.data.name === "assign") {
+				name = left.data.data.name
+			} else {
+				throw new Error(`Invalid name type: ${left}`)
+			}
+
 
 			p.advance();
 
@@ -405,7 +413,7 @@ export const expressionRules = [
 				data: {
 					name: "assign",
 					data: {
-						name: name.value!,
+						name: name!,
 						val,
 					},
 				},
