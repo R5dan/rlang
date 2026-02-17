@@ -166,7 +166,7 @@ export class VM {
 	run_(
 		queue: Line[],
 		microtasks: (() => void)[],
-		microevents: (() => void)[],
+		microevents: Record<number, () => void>,
 		break_: number = -1,
 	) {
 		try {
@@ -280,7 +280,7 @@ export class Runner<C extends ContextType = AllContexts> {
 			this.vm.microevents,
 			3,
 		);
-		this.running = true;
+		this.running = false;
 		this.lines = [];
 		return ret;
 	}
