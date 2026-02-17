@@ -187,7 +187,7 @@ export const statementRules = [
 				r.load(data.block);
 				r.run();
 			} else if (
-				call(type, type.data.public.__bool__, [], runner, vm).data.private.value
+				call(type, type.data.class.public.__bool__, [], runner, vm).data.private.value
 			) {
 				r.load(data.block);
 				r.run();
