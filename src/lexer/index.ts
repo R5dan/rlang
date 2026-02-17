@@ -6,7 +6,7 @@ export default class Lexer<N> {
 	public rules: LexingRule<N, any>[] = rules;
 
 	public lex(input: string, file: string): Token<N>[] {
-		let i = 0;
+		let i = -1;
 		const tokens = [];
 		let { line, col }: { line: number; col: number } = { line: 0, col: 0 };
 		while (true) {
