@@ -1,0 +1,302 @@
+[
+    {
+        "kind": "ident",
+        "value": "a",
+        "pos": {
+            "loc": 1,
+            "line": 1,
+            "col": 1,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 3,
+            "line": 1,
+            "col": 3,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 5,
+            "line": 1,
+            "col": 5,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "+",
+        "pos": {
+            "loc": 7,
+            "line": 1,
+            "col": 7,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 9,
+            "line": 1,
+            "col": 9,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "fn",
+        "pos": {
+            "loc": 15,
+            "line": 3,
+            "col": 3,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "add",
+        "pos": {
+            "loc": 19,
+            "line": 3,
+            "col": 7,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 20,
+            "line": 3,
+            "col": 8,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "d",
+        "pos": {
+            "loc": 21,
+            "line": 3,
+            "col": 9,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 22,
+            "line": 3,
+            "col": 10,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "b",
+        "pos": {
+            "loc": 24,
+            "line": 3,
+            "col": 12,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 25,
+            "line": 3,
+            "col": 13,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "{",
+        "pos": {
+            "loc": 27,
+            "line": 3,
+            "col": 15,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "c",
+        "pos": {
+            "loc": 32,
+            "line": 4,
+            "col": 4,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 34,
+            "line": 4,
+            "col": 6,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "d",
+        "pos": {
+            "loc": 36,
+            "line": 4,
+            "col": 8,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "+",
+        "pos": {
+            "loc": 38,
+            "line": 4,
+            "col": 10,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "b",
+        "pos": {
+            "loc": 40,
+            "line": 4,
+            "col": 12,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "return",
+        "pos": {
+            "loc": 50,
+            "line": 5,
+            "col": 9,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "c",
+        "pos": {
+            "loc": 52,
+            "line": 5,
+            "col": 11,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "}",
+        "pos": {
+            "loc": 55,
+            "line": 6,
+            "col": 2,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "b",
+        "pos": {
+            "loc": 60,
+            "line": 8,
+            "col": 2,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 62,
+            "line": 8,
+            "col": 4,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "add",
+        "pos": {
+            "loc": 66,
+            "line": 8,
+            "col": 8,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 67,
+            "line": 8,
+            "col": 9,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "1",
+        "pos": {
+            "loc": 68,
+            "line": 8,
+            "col": 10,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": ",",
+        "pos": {
+            "loc": 69,
+            "line": 8,
+            "col": 11,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "num",
+        "value": "2",
+        "pos": {
+            "loc": 71,
+            "line": 8,
+            "col": 13,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 72,
+            "line": 8,
+            "col": 14,
+            "file": "tests/original/test.r"
+        }
+    },
+    {
+        "kind": "EOF",
+        "value": null,
+        "pos": {
+            "loc": null,
+            "line": null,
+            "col": null,
+            "file": "tests/original/test.r"
+        }
+    }
+]
