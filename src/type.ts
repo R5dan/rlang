@@ -32,7 +32,7 @@ export type ExpressionRule<
 	name: N;
 	match: (p: Parser) => boolean
 	prefix?: (p: Parser) => AnyData<D, R extends string ? R : N> | TypeHolder;
-	infix?: (p: Parser, left: Expr|Variable) => AnyData<D, R extends string ? R : N> | TypeHolder;
+	infix?: (p: Parser, left: Expr|Variable|TypeHolder) => AnyData<D, R extends string ? R : N> | TypeHolder;
 	precedence?: number;
 
 	runs?: R[];
