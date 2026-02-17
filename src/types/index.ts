@@ -19,7 +19,7 @@ export type Function<R extends Type = Void, A extends string[]=[]> = Type<
 	[],
 	{},
 	{
-		inst: TypeInstance<Function<A, R>>["data"];
+		inst: TypeInstance<Function<R,A>>["data"];
 	},
 	{
 		code: AnyData[];
