@@ -1,27 +1,27 @@
-// import Lexer from "./src/lexer";
-// import path from "path";
+import Lexer from "./src/lexer";
+import path from "path";
 
-// const lexer = new Lexer();
-// const file = Bun.file("tests\\func\\test.r");
-// const contents = await file.text();
-// const tokens = lexer.lex(contents, "tests\\func\\test.r");
-// tokens.push({
-//     kind: "EOF",
-//     value: null,
-//     pos: {
-//         loc: null,
-//         line: null,
-//         col: null,
-//         file: "tests\\func\\test.r"
-//     }
-// })
-// const out = Bun.file(
-//     path.join(
-//         path.dirname("tests\\func\\test.r"),
-//         `${path.basename("tests\\func\\test.r", path.extname("tests\\func\\test.r"))}.rl.json`
-//     )
-// );
-// await out.write(JSON.stringify(tokens, null, 4));
+const lexer = new Lexer();
+const file = Bun.file("tests\\func\\test.r");
+const contents = await file.text();
+const tokens = lexer.lex(contents, "tests\\func\\test.r");
+tokens.push({
+    kind: "EOF",
+    value: null,
+    pos: {
+        loc: null,
+        line: null,
+        col: null,
+        file: "tests\\func\\test.r"
+    }
+})
+const out = Bun.file(
+    path.join(
+        path.dirname("tests\\func\\test.r"),
+        `${path.basename("tests\\func\\test.r", path.extname("tests\\func\\test.r"))}.rl.json`
+    )
+);
+await out.write(JSON.stringify(tokens, null, 4));
 
 // import path from "path"
 // import Parser from "./src/parser";
@@ -38,17 +38,17 @@
 // );
 // await out.write(JSON.stringify(tokens, null, 4));
 
-import builtins from "./src/builtin";
-import { VM, Runner, Context, Line } from "./src/vm";
+// import builtins from "./src/builtin";
+// import { VM, Runner, Context, Line } from "./src/vm";
 
-const file = Bun.file("tests\\func\\test.rl.rc.json");
-const data = (await file.json()) as any[];
+// const file = Bun.file("tests\\func\\test.rl.rc.json");
+// const data = (await file.json()) as any[];
 
-const ctx = new Context(builtins);
+// const ctx = new Context(builtins);
 
-const vm = new VM([], [], []);
-const r = new Runner(vm, ctx);
+// const vm = new VM([], [], []);
+// const r = new Runner(vm, ctx);
 
-r.load(data);
-r.exec();
-vm.run();
+// r.load(data);
+// r.exec();
+// vm.run();
