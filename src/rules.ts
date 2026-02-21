@@ -42,7 +42,7 @@ export const statementRules = [
 			// Consume 'fn' keyword
 
 			// Parse function name
-			const nameToken = p.expectIdent();
+			const nameToken = p.expect("ident");
 			const name = nameToken.value!;
 
 			// Parse opening parenthesis
