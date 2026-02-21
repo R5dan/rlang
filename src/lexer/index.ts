@@ -8,7 +8,7 @@ export default class Lexer<N> {
 	public lex(input: string, file: string): Token<N>[] {
 		let i = -1;
 		const tokens = [];
-		let { line, col }: { line: number; col: number } = { line: 0, col: 0 };
+		let { line, col }: { line: number; col: number } = { line: 1, col: 0 };
 		while (true) {
 			i++;
 			col++;
@@ -30,6 +30,8 @@ export default class Lexer<N> {
 				throw new Error(`Unexpected token '${ch}' @ (${line}, ${col})`);
 			}
 			const text = match.text;
+			const startCol = col
+			const startLine = line
 			for (const c of text) {
 				if (c === "\n") {
 					line++;
@@ -44,12 +46,12 @@ export default class Lexer<N> {
 				value: match.text,
 				pos: {
 					loc: i,
-					line,
-					col,
+					line: startLine,
+					col: startCol,
 					file,
 				},
 			});
-			i += match.length;
+			i += match.length-1;
 
 		}
 		return tokens;

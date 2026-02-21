@@ -53,7 +53,7 @@ export type Float = Type<"float", [Object["type"], Number["type"]]>;
 export type Integer = Type<"integer", [Object["type"], Number["type"]]>;
 export type Boolean = Type<"boolean", [Object["type"]], {}, { value: boolean }>;
 
-export const functionType = type<Function<any>>(
+export const functionType = type<Function<any, any>>(
 	{
 		name: "function",
 		inheritance: [],

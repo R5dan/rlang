@@ -15,7 +15,7 @@ import { Context, Runner } from "./vm";
 export const lexingRules = [
 	{
 		name: "num",
-		regex: /^[0-9]+/,
+		regex: /^[0-9]/,
 	},
 	{
 		name: "ident",
@@ -23,7 +23,7 @@ export const lexingRules = [
 	},
 	{
 		name: "sym",
-		regex: /^[+\-*\\/%<>=!,'"`]+/,
+		regex: /^[+\-*\\/%<>=!,'"`]/,
 	},
 	{
 		name: "brac",
@@ -358,7 +358,7 @@ export const expressionRules = [
 		name: "var",
 		match: (p) => p.isIdent(),
 		prefix: (p) => {
-			const name = p.peek();
+			const name = p.assertIdent()
 
 			p.advance();
 
@@ -375,14 +375,17 @@ export const expressionRules = [
 		name: "number",
 		match: (p) => p.is("num"),
 		prefix: (p) => {
-			const data = p.peek();
-			p.advance();
+			const data = []
+			while (p.is("num")) {
+				data.push(p.peek().value)
+				p.advance()
+			}
 			return {
 				name: "typeHolder",
 				data: {
 					name: "number",
 					private: {
-						value: Number(data.value),
+						value: Number(data.join("")),
 					},
 					public: {},
 				},

@@ -58,7 +58,11 @@ export default class Parser {
 
 	public is(kind: string, value?: string, token?: Token): boolean {
 		const ident = token ?? this.peek();
-		return ident.kind === kind && (!value || ident.value === value);
+		return this.tokenIs(ident, kind,value)
+	}
+
+	public tokenIs(token: Token, kind: string, value?:string) {
+		return token.kind === kind && (!value || token.value === value);
 	}
 
 	public isNot(kind: N, value?: string): boolean {
