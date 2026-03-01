@@ -80,6 +80,8 @@ export function fn<R extends Type, A extends string[]=[]>(
 	const func = functionType();
 
 	func.data.private.__call__ = fn;
+	func.data.private.args = args
+	func.data.private.name = name
 	return func;
 }
 

@@ -5,6 +5,8 @@ import type {
 	StatementRule,
 	Token,
 	Type,
+	TypeHolder,
+	TypeInstance,
 	Variable,
 } from "../type";
 
@@ -93,10 +95,10 @@ export default class Parser {
 		return this.isNot("ident", s);
 	}
 
-	public parseExpr<R extends boolean = true>(
+	public parseExpr<R extends true|false = true>(
 		minPrec: number = 0,
 		required: R = true as R,
-	): R extends true ? Type | Variable | Expr : (Type | Variable | Expr) | null {
+	): R extends true ? TypeHolder | Variable | Expr : (TypeHolder | Variable | Expr) | null {
 		let prefixRule = null;
 		for (const rule of this.exprRules) {
 			if (rule?.prefix && rule.match(this)) {
@@ -144,12 +146,10 @@ export default class Parser {
 	public parseStmt() {
 		for (const rule of this.stmtRules) {
 			if (rule.match(this)) {
-				`RULE: ${JSON.stringify(rule)}`;
 				const data = rule.parse(this);
 				return data;
 			}
 		}
-		`EXPR`;
 		return this.parseExpr();
 	}
 

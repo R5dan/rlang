@@ -1,3 +1,4 @@
+import fs from "fs";
 import { ParseError } from "./errors";
 import type {
 	AnyData,
@@ -9,8 +10,9 @@ import type {
 	TypeInstance,
 	Variable,
 } from "./type";
-import { call, functionType, number, string, type Number } from "./types";
+import { call, functionType, number, type Number } from "./types";
 import { Context, Runner } from "./vm";
+import path from "path";
 
 export const lexingRules = [
 	{
@@ -34,13 +36,110 @@ export const lexingRules = [
 
 export const statementRules = [
 	{
+		name: "import",
+		match: (p) => p.isIdent("import"),
+		parse: (p) => {
+			const imports = [];
+			const ident1 = p.expect("ident");
+			imports.push(ident1.value);
+			while (true) {
+				if (p.isSym(",")) {
+					p.advance();
+					const ident = p.expect("ident");
+					imports.push(ident.value);
+					continue;
+				}
+				break;
+			}
+
+			p.expect("ident", "from");
+			const file = p.expect("ident");
+
+			return {
+				name: "stmt",
+				data: {
+					name: "import",
+					data: {
+						file: path.join(path.dirname(file.pos.file), `${file.value}.rc`),
+						imports,
+					},
+				},
+			};
+		},
+		run(data, vm, runner) {
+			console.log(data);
+			console.log(data.file);
+			const compiled = JSON.parse(fs.readFileSync(data.file, "utf-8"));
+
+			const ctx = new Context();
+			const r = new Runner(vm, ctx);
+			r.load(compiled);
+			r.run();
+			console.log(r.ctx.exports);
+			data.imports.forEach((var_) => {
+				console.log(var_);
+				if (r.ctx.exports.includes(var_)) {
+					runner.ctx.setVar(var_, r.ctx.ctx[var_]!);
+					return;
+				}
+				throw new Error(`No export named '${var_}' in '${data.file}'`);
+			});
+		},
+	} satisfies StatementRule<{ file: string; imports: string[] }>,
+	{
+		name: "export",
+		match: (p) => p.isIdent("export"),
+		parse: (p) => {
+			p.advance();
+			const export_ = p.parseExpr();
+			if (export_.name === "typeHolder") {
+				throw new Error("Can't export types");
+			} else if (export_.name === "variable") {
+				return {
+					name: "stmt",
+					data: {
+						name: "export",
+						data: {
+							var: export_.data.name,
+							expr: null,
+						},
+					},
+				};
+			} else if (export_.name === "expr") {
+				if (export_.data.name === "assign") {
+					return {
+						name: "stmt",
+						data: {
+							name: "export",
+							data: {
+								var: export_.data.name,
+								expr: export_,
+							},
+						},
+					};
+				}
+			} else {
+				throw new Error("ERROR");
+			}
+		},
+		run(data, vm, runner) {
+			console.log("\n\nEXPORT\n");
+			console.log(data);
+			console.log("\n\n");
+			if (data.expr) {
+				vm.execExpr(data.expr, runner);
+			}
+			runner.ctx.exports.push(data.var);
+			console.log(runner.ctx.exports);
+		},
+	},
+	{
 		name: "function",
 		match: (p) => {
 			return p.isIdent("fn");
 		},
 		parse: (p) => {
 			// Consume 'fn' keyword
-
 			// Parse function name
 			const nameToken = p.expect("ident");
 			const name = nameToken.value!;
@@ -131,20 +230,47 @@ export const statementRules = [
 		name: "if",
 		match: (p) => p.isIdent("if"),
 		parse: (p) => {
-			p.expect("brac", "(");
+			const elses = [] as { expr: Expr | Variable | Type; block: AnyData[] }[];
+			let catchAll = [] as AnyData[];
+
 			p.advance();
-			const expr = p.parseExpr();
-			p.assert("brac", ")");
-			p.advance();
-			const block = p.is("brac", "{") ? p.parseBlock() : [p.parseStmt()];
+
+			while (true) {
+				console.log(p.peek());
+				p.assert("brac", "(");
+				p.advance();
+				const expr = p.parseExpr();
+				p.assert("brac", ")");
+				p.advance();
+				const block = p.parseBlock();
+
+				elses.push({ expr, block });
+
+				console.log("\n\n\n");
+				console.log(p.peek());
+				if (p.isIdent("else")) {
+					p.advance();
+					if (p.isIdent("if")) {
+						p.advance();
+						continue;
+					}
+
+					const block = p.parseBlock();
+					catchAll = block;
+					break;
+				} else {
+					break;
+				}
+			}
+			console.log(p.peek());
 
 			return {
 				name: "stmt",
 				data: {
 					name: "if",
 					data: {
-						expr,
-						block,
+						elses,
+						catchAll,
 					},
 				},
 			};
@@ -153,19 +279,28 @@ export const statementRules = [
 			const ctx = new Context(runner.ctx);
 			const r = new Runner(vm, ctx);
 
-			const type = vm.execAny(data.expr, r);
-
-			if (type.data.class.name === "boolean" && type.data.private.value) {
-				r.load(data.block);
-				r.run();
-			} else if (
-				call(type, type.data.class.public.__bool__, [], runner, vm).data.private.value
-			) {
-				r.load(data.block);
+			let exec = false;
+			for (const block of data.elses) {
+				const satisfies = vm.execAny(block.expr, r);
+				if (
+					call(satisfies, satisfies.data.class.public.__bool__, [], runner, vm)
+						.data.private.value
+				) {
+					exec = true;
+					r.load(block.block);
+					r.run();
+					break;
+				}
+			}
+			if (!exec) {
+				r.load(data.catchAll);
 				r.run();
 			}
 		},
-	} satisfies StatementRule<{ expr: Expr | Variable | Type; block: AnyData[] }>,
+	} satisfies StatementRule<{
+		elses: { expr: Expr | Variable | Type; block: AnyData[] }[];
+		catchAll: AnyData[];
+	}>,
 	{
 		name: "while",
 		match: (p) => p.isIdent("while"),
@@ -206,8 +341,26 @@ export const statementRules = [
 					break;
 				}
 			}
+			vm.break = false;
 		},
 	} satisfies StatementRule<{ expr: Expr | Variable | Type; block: AnyData[] }>,
+	{
+		name: "break",
+		match: (p) => p.isIdent("break"),
+		parse: (p) => {
+			p.advance();
+			return {
+				name: "stmt",
+				data: {
+					name: "break",
+					data: "",
+				},
+			};
+		},
+		run: (data, vm, runner) => {
+			vm.break = true;
+		},
+	},
 ] satisfies StatementRule<any>[];
 
 export const expressionRules = [
@@ -216,31 +369,31 @@ export const expressionRules = [
 		precedence: 1000,
 		match: (p) => p.isSym("'") || p.isSym("`") || p.isSym(`"`),
 		prefix: (p) => {
-			const quote = p.peek()
-			let str = ""
+			const quote = p.peek();
+			let str = "";
 			while (true) {
-				const char = p.advance()
+				const char = p.advance();
 				if (char.value === quote.value) {
-					break
+					break;
 				} else if (p.is("sym", "\\", char)) {
-					str += p.advance().value
+					str += p.advance().value;
 				} else {
-					str += char.value
+					str += char.value;
 				}
 			}
-			p.advance()
+			p.advance();
 
 			return {
 				name: "typeHolder",
 				data: {
 					name: "string",
 					private: {
-						value: str
+						value: str,
 					},
-					public: {}
-				}
-			}
-		}
+					public: {},
+				},
+			};
+		},
 	},
 	{
 		name: "add",
@@ -358,7 +511,7 @@ export const expressionRules = [
 		name: "var",
 		match: (p) => p.isIdent(),
 		prefix: (p) => {
-			const name = p.assertIdent()
+			const name = p.assert("ident");
 
 			p.advance();
 
@@ -375,10 +528,10 @@ export const expressionRules = [
 		name: "number",
 		match: (p) => p.is("num"),
 		prefix: (p) => {
-			const data = []
+			const data = [];
 			while (p.is("num")) {
-				data.push(p.peek().value)
-				p.advance()
+				data.push(p.peek().value);
+				p.advance();
 			}
 			return {
 				name: "typeHolder",
@@ -399,13 +552,12 @@ export const expressionRules = [
 		infix: (p, left) => {
 			let name: string;
 			if (left.name === "variable") {
-				name = left.data.name
+				name = left.data.name;
 			} else if (left.name === "expr" && left.data.name === "assign") {
-				name = left.data.data.name
+				name = left.data.data.name;
 			} else {
-				throw new Error(`Invalid name type: ${left}`)
+				throw new Error(`Invalid name type: ${left}`);
 			}
-
 
 			p.advance();
 
