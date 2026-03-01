@@ -53,7 +53,7 @@ export type Float = Type<"float", [Object["type"], Number["type"]]>;
 export type Integer = Type<"integer", [Object["type"], Number["type"]]>;
 export type Boolean = Type<"boolean", [Object["type"]], {}, { value: boolean }>;
 
-export const functionType = type<Function<any>>(
+export const functionType = type<Function<any, any>>(
 	{
 		name: "function",
 		inheritance: [],
@@ -80,6 +80,8 @@ export function fn<R extends Type, A extends string[]=[]>(
 	const func = functionType();
 
 	func.data.private.__call__ = fn;
+	func.data.private.args = args
+	func.data.private.name = name
 	return func;
 }
 

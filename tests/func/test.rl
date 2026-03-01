@@ -1,11 +1,11 @@
 [
     {
         "kind": "ident",
-        "value": "fn",
+        "value": "import",
         "pos": {
-            "loc": 1,
-            "line": 0,
-            "col": 2,
+            "loc": 0,
+            "line": 1,
+            "col": 1,
             "file": "tests\\func\\test.r"
         }
     },
@@ -13,149 +13,29 @@
         "kind": "ident",
         "value": "add",
         "pos": {
-            "loc": 3,
-            "line": 0,
-            "col": 6,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "brac",
-        "value": "(",
-        "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "ident",
-        "value": "a",
-        "pos": {
             "loc": 7,
-            "line": 0,
-            "col": 8,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "sym",
-        "value": ",",
-        "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "ident",
-        "value": "b",
-        "pos": {
-            "loc": 10,
-            "line": 0,
-            "col": 11,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "brac",
-        "value": ")",
-        "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "brac",
-        "value": "{",
-        "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "ident",
-        "value": "c",
-        "pos": {
-            "loc": 18,
             "line": 1,
-            "col": 4,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "sym",
-        "value": "=",
-        "pos": {
-            "loc": 20,
-            "line": 1,
-            "col": 6,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "ident",
-        "value": "a",
-        "pos": {
-            "loc": 22,
-            "line": 1,
-            "col": 8,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "sym",
-        "value": "+",
-        "pos": {
-            "loc": 24,
-            "line": 1,
-            "col": 10,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "ident",
-        "value": "b",
-        "pos": {
-            "loc": 26,
-            "line": 1,
-            "col": 12,
-            "file": "tests\\func\\test.r"
-        }
-    },
-    {
-        "kind": "ident",
-        "value": "return",
-        "pos": {
-            "loc": 31,
-            "line": 2,
             "col": 9,
             "file": "tests\\func\\test.r"
         }
     },
     {
         "kind": "ident",
-        "value": "c",
+        "value": "from",
         "pos": {
-            "loc": 38,
-            "line": 2,
-            "col": 11,
+            "loc": 11,
+            "line": 1,
+            "col": 14,
             "file": "tests\\func\\test.r"
         }
     },
     {
-        "kind": "brac",
-        "value": "}",
+        "kind": "ident",
+        "value": "add",
         "pos": {
-            "loc": 41,
-            "line": 3,
-            "col": 2,
+            "loc": 16,
+            "line": 1,
+            "col": 20,
             "file": "tests\\func\\test.r"
         }
     },
@@ -163,9 +43,9 @@
         "kind": "ident",
         "value": "f",
         "pos": {
-            "loc": 46,
-            "line": 5,
-            "col": 2,
+            "loc": 21,
+            "line": 3,
+            "col": 1,
             "file": "tests\\func\\test.r"
         }
     },
@@ -173,8 +53,8 @@
         "kind": "sym",
         "value": "=",
         "pos": {
-            "loc": 48,
-            "line": 5,
+            "loc": 23,
+            "line": 3,
             "col": 4,
             "file": "tests\\func\\test.r"
         }
@@ -183,9 +63,9 @@
         "kind": "ident",
         "value": "add",
         "pos": {
-            "loc": 50,
-            "line": 5,
-            "col": 8,
+            "loc": 25,
+            "line": 3,
+            "col": 7,
             "file": "tests\\func\\test.r"
         }
     },
@@ -193,9 +73,9 @@
         "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 28,
+            "line": 3,
+            "col": 11,
             "file": "tests\\func\\test.r"
         }
     },
@@ -203,9 +83,9 @@
         "kind": "num",
         "value": "1",
         "pos": {
-            "loc": 54,
-            "line": 5,
-            "col": 10,
+            "loc": 29,
+            "line": 3,
+            "col": 13,
             "file": "tests\\func\\test.r"
         }
     },
@@ -213,9 +93,9 @@
         "kind": "sym",
         "value": ",",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 30,
+            "line": 3,
+            "col": 15,
             "file": "tests\\func\\test.r"
         }
     },
@@ -223,9 +103,9 @@
         "kind": "ident",
         "value": "b",
         "pos": {
-            "loc": 50,
-            "line": 5,
-            "col": 8,
+            "loc": 32,
+            "line": 3,
+            "col": 18,
             "file": "tests\\func\\test.r"
         }
     },
@@ -233,9 +113,9 @@
         "kind": "sym",
         "value": "=",
         "pos": {
-            "loc": 50,
-            "line": 5,
-            "col": 8,
+            "loc": 33,
+            "line": 3,
+            "col": 20,
             "file": "tests\\func\\test.r"
         }
     },
@@ -243,9 +123,9 @@
         "kind": "num",
         "value": "2",
         "pos": {
-            "loc": 57,
-            "line": 5,
-            "col": 13,
+            "loc": 34,
+            "line": 3,
+            "col": 22,
             "file": "tests\\func\\test.r"
         }
     },
@@ -253,9 +133,9 @@
         "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 35,
+            "line": 3,
+            "col": 24,
             "file": "tests\\func\\test.r"
         }
     },
@@ -263,9 +143,9 @@
         "kind": "ident",
         "value": "g",
         "pos": {
-            "loc": 61,
-            "line": 6,
-            "col": 2,
+            "loc": 37,
+            "line": 4,
+            "col": 1,
             "file": "tests\\func\\test.r"
         }
     },
@@ -273,8 +153,8 @@
         "kind": "sym",
         "value": "=",
         "pos": {
-            "loc": 63,
-            "line": 6,
+            "loc": 39,
+            "line": 4,
             "col": 4,
             "file": "tests\\func\\test.r"
         }
@@ -283,9 +163,9 @@
         "kind": "ident",
         "value": "add",
         "pos": {
-            "loc": 65,
-            "line": 6,
-            "col": 8,
+            "loc": 41,
+            "line": 4,
+            "col": 7,
             "file": "tests\\func\\test.r"
         }
     },
@@ -293,19 +173,19 @@
         "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 44,
+            "line": 4,
+            "col": 11,
             "file": "tests\\func\\test.r"
         }
     },
     {
         "kind": "num",
-        "value": "3",
+        "value": "5",
         "pos": {
-            "loc": 69,
-            "line": 6,
-            "col": 10,
+            "loc": 45,
+            "line": 4,
+            "col": 13,
             "file": "tests\\func\\test.r"
         }
     },
@@ -313,9 +193,29 @@
         "kind": "sym",
         "value": ",",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 46,
+            "line": 4,
+            "col": 15,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "b",
+        "pos": {
+            "loc": 48,
+            "line": 4,
+            "col": 18,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "=",
+        "pos": {
+            "loc": 49,
+            "line": 4,
+            "col": 20,
             "file": "tests\\func\\test.r"
         }
     },
@@ -323,9 +223,9 @@
         "kind": "num",
         "value": "4",
         "pos": {
-            "loc": 71,
-            "line": 6,
-            "col": 12,
+            "loc": 50,
+            "line": 4,
+            "col": 22,
             "file": "tests\\func\\test.r"
         }
     },
@@ -333,9 +233,9 @@
         "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 51,
+            "line": 4,
+            "col": 24,
             "file": "tests\\func\\test.r"
         }
     },
@@ -343,9 +243,9 @@
         "kind": "ident",
         "value": "while",
         "pos": {
-            "loc": 77,
-            "line": 8,
-            "col": 6,
+            "loc": 54,
+            "line": 6,
+            "col": 1,
             "file": "tests\\func\\test.r"
         }
     },
@@ -353,8 +253,8 @@
         "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 83,
-            "line": 8,
+            "loc": 60,
+            "line": 6,
             "col": 8,
             "file": "tests\\func\\test.r"
         }
@@ -363,9 +263,9 @@
         "kind": "ident",
         "value": "true",
         "pos": {
-            "loc": 85,
-            "line": 8,
-            "col": 12,
+            "loc": 61,
+            "line": 6,
+            "col": 10,
             "file": "tests\\func\\test.r"
         }
     },
@@ -373,9 +273,9 @@
         "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 65,
+            "line": 6,
+            "col": 15,
             "file": "tests\\func\\test.r"
         }
     },
@@ -383,9 +283,9 @@
         "kind": "brac",
         "value": "{",
         "pos": {
-            "loc": 90,
-            "line": 8,
-            "col": 15,
+            "loc": 67,
+            "line": 6,
+            "col": 18,
             "file": "tests\\func\\test.r"
         }
     },
@@ -393,8 +293,8 @@
         "kind": "ident",
         "value": "if",
         "pos": {
-            "loc": 95,
-            "line": 9,
+            "loc": 73,
+            "line": 7,
             "col": 5,
             "file": "tests\\func\\test.r"
         }
@@ -403,18 +303,18 @@
         "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 98,
-            "line": 9,
-            "col": 7,
+            "loc": 76,
+            "line": 7,
+            "col": 9,
             "file": "tests\\func\\test.r"
         }
     },
     {
         "kind": "ident",
-        "value": "true",
+        "value": "false",
         "pos": {
-            "loc": 100,
-            "line": 9,
+            "loc": 77,
+            "line": 7,
             "col": 11,
             "file": "tests\\func\\test.r"
         }
@@ -423,9 +323,9 @@
         "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 82,
+            "line": 7,
+            "col": 17,
             "file": "tests\\func\\test.r"
         }
     },
@@ -433,9 +333,9 @@
         "kind": "brac",
         "value": "{",
         "pos": {
-            "loc": 105,
-            "line": 9,
-            "col": 14,
+            "loc": 84,
+            "line": 7,
+            "col": 20,
             "file": "tests\\func\\test.r"
         }
     },
@@ -443,9 +343,9 @@
         "kind": "ident",
         "value": "print",
         "pos": {
-            "loc": 112,
-            "line": 10,
-            "col": 10,
+            "loc": 94,
+            "line": 8,
+            "col": 9,
             "file": "tests\\func\\test.r"
         }
     },
@@ -453,9 +353,139 @@
         "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 13,
-            "line": 0,
+            "loc": 99,
+            "line": 8,
+            "col": 15,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "\"",
+        "pos": {
+            "loc": 100,
+            "line": 8,
+            "col": 17,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "false",
+        "pos": {
+            "loc": 101,
+            "line": 8,
+            "col": 19,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "sym",
+        "value": "\"",
+        "pos": {
+            "loc": 106,
+            "line": 8,
+            "col": 25,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 107,
+            "line": 8,
+            "col": 27,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "}",
+        "pos": {
+            "loc": 113,
+            "line": 9,
+            "col": 5,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "else",
+        "pos": {
+            "loc": 115,
+            "line": 9,
+            "col": 8,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "if",
+        "pos": {
+            "loc": 120,
+            "line": 9,
             "col": 14,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 123,
+            "line": 9,
+            "col": 18,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "true",
+        "pos": {
+            "loc": 124,
+            "line": 9,
+            "col": 20,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": ")",
+        "pos": {
+            "loc": 128,
+            "line": 9,
+            "col": 25,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "{",
+        "pos": {
+            "loc": 130,
+            "line": 9,
+            "col": 28,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "ident",
+        "value": "print",
+        "pos": {
+            "loc": 140,
+            "line": 10,
+            "col": 9,
+            "file": "tests\\func\\test.r"
+        }
+    },
+    {
+        "kind": "brac",
+        "value": "(",
+        "pos": {
+            "loc": 145,
+            "line": 10,
+            "col": 15,
             "file": "tests\\func\\test.r"
         }
     },
@@ -463,9 +493,9 @@
         "kind": "ident",
         "value": "f",
         "pos": {
-            "loc": 118,
+            "loc": 146,
             "line": 10,
-            "col": 12,
+            "col": 17,
             "file": "tests\\func\\test.r"
         }
     },
@@ -473,9 +503,9 @@
         "kind": "sym",
         "value": ",",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 147,
+            "line": 10,
+            "col": 19,
             "file": "tests\\func\\test.r"
         }
     },
@@ -483,9 +513,9 @@
         "kind": "ident",
         "value": "g",
         "pos": {
-            "loc": 120,
+            "loc": 148,
             "line": 10,
-            "col": 14,
+            "col": 21,
             "file": "tests\\func\\test.r"
         }
     },
@@ -493,9 +523,9 @@
         "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 149,
+            "line": 10,
+            "col": 23,
             "file": "tests\\func\\test.r"
         }
     },
@@ -503,9 +533,9 @@
         "kind": "brac",
         "value": "}",
         "pos": {
-            "loc": 126,
+            "loc": 155,
             "line": 11,
-            "col": 4,
+            "col": 5,
             "file": "tests\\func\\test.r"
         }
     },
@@ -513,9 +543,9 @@
         "kind": "brac",
         "value": "}",
         "pos": {
-            "loc": 129,
+            "loc": 157,
             "line": 12,
-            "col": 2,
+            "col": 1,
             "file": "tests\\func\\test.r"
         }
     },
@@ -523,9 +553,9 @@
         "kind": "ident",
         "value": "exit",
         "pos": {
-            "loc": 132,
-            "line": 13,
-            "col": 5,
+            "loc": 160,
+            "line": 14,
+            "col": 1,
             "file": "tests\\func\\test.r"
         }
     },
@@ -533,9 +563,9 @@
         "kind": "brac",
         "value": "(",
         "pos": {
-            "loc": 13,
-            "line": 0,
-            "col": 14,
+            "loc": 164,
+            "line": 14,
+            "col": 6,
             "file": "tests\\func\\test.r"
         }
     },
@@ -543,9 +573,9 @@
         "kind": "brac",
         "value": ")",
         "pos": {
-            "loc": 137,
-            "line": 13,
-            "col": 7,
+            "loc": 165,
+            "line": 14,
+            "col": 8,
             "file": "tests\\func\\test.r"
         }
     },

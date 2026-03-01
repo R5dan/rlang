@@ -1,0 +1,244 @@
+[
+    {
+        "name": "stmt",
+        "data": {
+            "name": "import",
+            "data": {
+                "file": "tests\\func\\add.rc",
+                "imports": [
+                    "add"
+                ]
+            }
+        }
+    },
+    {
+        "name": "variable",
+        "data": {
+            "name": "add"
+        }
+    },
+    {
+        "name": "expr",
+        "data": {
+            "name": "assign",
+            "data": {
+                "name": "f",
+                "val": {
+                    "name": "expr",
+                    "data": {
+                        "name": "call",
+                        "data": {
+                            "var": {
+                                "name": "variable",
+                                "data": {
+                                    "name": "add"
+                                }
+                            },
+                            "args": [
+                                {
+                                    "name": "typeHolder",
+                                    "data": {
+                                        "name": "number",
+                                        "private": {
+                                            "value": 1
+                                        },
+                                        "public": {}
+                                    }
+                                },
+                                {
+                                    "name": "expr",
+                                    "data": {
+                                        "name": "assign",
+                                        "data": {
+                                            "name": "b",
+                                            "val": {
+                                                "name": "typeHolder",
+                                                "data": {
+                                                    "name": "number",
+                                                    "private": {
+                                                        "value": 2
+                                                    },
+                                                    "public": {}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "expr",
+        "data": {
+            "name": "assign",
+            "data": {
+                "name": "g",
+                "val": {
+                    "name": "expr",
+                    "data": {
+                        "name": "call",
+                        "data": {
+                            "var": {
+                                "name": "variable",
+                                "data": {
+                                    "name": "add"
+                                }
+                            },
+                            "args": [
+                                {
+                                    "name": "typeHolder",
+                                    "data": {
+                                        "name": "number",
+                                        "private": {
+                                            "value": 5
+                                        },
+                                        "public": {}
+                                    }
+                                },
+                                {
+                                    "name": "expr",
+                                    "data": {
+                                        "name": "assign",
+                                        "data": {
+                                            "name": "b",
+                                            "val": {
+                                                "name": "typeHolder",
+                                                "data": {
+                                                    "name": "number",
+                                                    "private": {
+                                                        "value": 4
+                                                    },
+                                                    "public": {}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "name": "stmt",
+        "data": {
+            "name": "while",
+            "data": {
+                "expr": {
+                    "name": "variable",
+                    "data": {
+                        "name": "true"
+                    }
+                },
+                "block": [
+                    {
+                        "name": "stmt",
+                        "data": {
+                            "name": "if",
+                            "data": {
+                                "elses": [
+                                    {
+                                        "expr": {
+                                            "name": "variable",
+                                            "data": {
+                                                "name": "false"
+                                            }
+                                        },
+                                        "block": [
+                                            {
+                                                "name": "expr",
+                                                "data": {
+                                                    "name": "call",
+                                                    "data": {
+                                                        "var": {
+                                                            "name": "variable",
+                                                            "data": {
+                                                                "name": "print"
+                                                            }
+                                                        },
+                                                        "args": [
+                                                            {
+                                                                "name": "typeHolder",
+                                                                "data": {
+                                                                    "name": "string",
+                                                                    "private": {
+                                                                        "value": "false"
+                                                                    },
+                                                                    "public": {}
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "expr": {
+                                            "name": "variable",
+                                            "data": {
+                                                "name": "true"
+                                            }
+                                        },
+                                        "block": [
+                                            {
+                                                "name": "expr",
+                                                "data": {
+                                                    "name": "call",
+                                                    "data": {
+                                                        "var": {
+                                                            "name": "variable",
+                                                            "data": {
+                                                                "name": "print"
+                                                            }
+                                                        },
+                                                        "args": [
+                                                            {
+                                                                "name": "variable",
+                                                                "data": {
+                                                                    "name": "f"
+                                                                }
+                                                            },
+                                                            {
+                                                                "name": "variable",
+                                                                "data": {
+                                                                    "name": "g"
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "catchAll": []
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "name": "expr",
+        "data": {
+            "name": "call",
+            "data": {
+                "var": {
+                    "name": "variable",
+                    "data": {
+                        "name": "exit"
+                    }
+                },
+                "args": []
+            }
+        }
+    }
+]

@@ -14,12 +14,14 @@ export type ContextType = {
 	ctx: Record<string, TypeInstance<Type>>;
 	special: string | null;
 	parent: ContextType | null;
+	exports: string[];
 	getVar(variable: Variable): TypeInstance<Type>;
 };
 
 abstract class BaseContext implements ContextType {
 	public ctx: Record<string, TypeInstance<Type>> = {};
 	public abstract special: string | null;
+	public exports: string[] = [];
 	constructor(public parent: ContextType | null = null) {}
 
 	getVar(variable: Variable): TypeInstance<Type> {
@@ -274,7 +276,7 @@ export class Runner<C extends ContextType = AllContexts> {
 		// if (!line) return void 0
 		this.running = true;
 		const ret = this.vm.run_(
-			this.lines,
+			this.lines as any as Line[],
 			this.vm.microtasks,
 			this.vm.microevents,
 			3,

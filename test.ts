@@ -1,10 +1,12 @@
+const loc = "tests\\func\\test"
+
 // import Lexer from "./src/lexer";
 // import path from "path";
 
 // const lexer = new Lexer();
-// const file = Bun.file("tests\\func\\test.r");
+// const file = Bun.file(`${loc}.r`);
 // const contents = await file.text();
-// const tokens = lexer.lex(contents, "tests\\func\\test.r");
+// const tokens = lexer.lex(contents, `${loc}.r`);
 // tokens.push({
 //     kind: "EOF",
 //     value: null,
@@ -12,13 +14,13 @@
 //         loc: null,
 //         line: null,
 //         col: null,
-//         file: "tests\\func\\test.r"
+//         file: `${loc}.r`
 //     }
 // })
 // const out = Bun.file(
 //     path.join(
-//         path.dirname("tests\\func\\test.r"),
-//         `${path.basename("tests\\func\\test.r", path.extname("tests\\func\\test.r"))}.rl.json`
+//         path.dirname(`${loc}.r`),
+//         `${path.basename(`${loc}.r`, ".r")}.rl`
 //     )
 // );
 // await out.write(JSON.stringify(tokens, null, 4));
@@ -26,14 +28,14 @@
 // import path from "path"
 // import Parser from "./src/parser";
 
-// const file = Bun.file("tests\\func\\test.rl.json");
+// const file = Bun.file(`${loc}.rl`);
 // const contents = await file.json()
 // const parser = new Parser(contents);
 // const tokens = parser.parse();
 // const out = Bun.file(
 //     path.join(
-//         path.dirname("tests\\func\\test.rl.json"),
-//         `${path.basename("tests\\func\\test.rl.json", path.extname("tests\\func\\test.rl.json"))}.rc.json`
+//         path.dirname(`${loc}.rl`),
+//         `${path.basename(`${loc}.rl`, ".rl")}.rc`
 //     )
 // );
 // await out.write(JSON.stringify(tokens, null, 4));
@@ -41,7 +43,7 @@
 import builtins from "./src/builtin";
 import { VM, Runner, Context, Line } from "./src/vm";
 
-const file = Bun.file("tests\\func\\test.rl.rc.json");
+const file = Bun.file(`${loc}.rc`);
 const data = (await file.json()) as any[];
 
 const ctx = new Context(builtins);
